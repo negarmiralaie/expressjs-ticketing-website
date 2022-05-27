@@ -1,7 +1,7 @@
 const { User, validate } = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const sendOTPVerificationEmail = require('../helpers/sendOTPVerificationMail');
+const sendOTPVerificationMail = require('../helpers/sendOTPVerificationMail');
 
 const handleRegister = async (req, res) => {
 
@@ -51,7 +51,7 @@ const handleRegister = async (req, res) => {
         const foundUser = await User.findOne({email});
 
         // Now send verification email
-        const isOTPSent = sendOTPVerificationEmail(foundUser.id, foundUser.email);
+        const isOTPSent = sendOTPVerificationMail(foundUser.id, foundUser.email);
 
         if (isOTPSent) {
             return res

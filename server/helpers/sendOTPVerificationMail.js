@@ -16,4 +16,4 @@ const sendOTPVerificationMail = async (id, email) => {
     }
 }
 
-module.exports = sendOTPVerificationEmail;
+module.exports = sendOTPVerificationMail;
