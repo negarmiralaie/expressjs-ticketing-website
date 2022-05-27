@@ -1,7 +1,7 @@
 const { User, validate } = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const sendOTPVerificationEmail = require('../utils/sendOTPVerificationEmail');
+const sendOTPVerificationEmail = require('../helpers/sendOTPVerificationMail');
 
 const handleRegister = async (req, res) => {
 
