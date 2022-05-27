@@ -45,7 +45,6 @@ const validate = user =>{
     const schema = Joi.object({
         email: Joi.string().email().required(),
         password: Joi.string().min(7).required().strict(),
-        // date: Joi.date().timestamp().required(),
     });
 
     return schema.validate(user);
