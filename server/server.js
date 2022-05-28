@@ -6,9 +6,6 @@ const crypto = require('crypto');
 const cookieparser = require('cookie-parser');
 // const nodemailer = require('nodemailer');
 const createError = require('http-errors');
-const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerUI = require('swagger-ui-express');
-
 const connectDB = require('./config/db');
 
 ////////////////////// END OF IMPORTS //////////////////////
