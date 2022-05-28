@@ -5,10 +5,13 @@ const sendOTPVerificationMail = require('../helpers/sendOTPVerificationMail');
 
 const handleRegister = async (req, res) => {
 
+    console.log('3', 3);
     const { error } = validate(req.body);
-    if (error) return res.status(400).json(error.details[0].message);
-
+    console.log('2', 2)
+    // if (error) return res.status(400).json(error.details[0].message);
+    console.log('1', 1)
     let { name, familyName, email, password } = req.body;
+    console.log('name', name)
     if ( !name || !familyName || !email || !password) return res.status(400).json({
         'message': 'All fields are required.'
     });
@@ -17,6 +20,8 @@ const handleRegister = async (req, res) => {
     familyName = familyName.trim();
     email = email.trim();
     password = password.trim();
+
+    console.log('name', name);
 
     // Check email
     if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
@@ -54,6 +59,9 @@ const handleRegister = async (req, res) => {
         const isOTPSent = sendOTPVerificationMail(foundUser.id, foundUser.email);
 
         if (isOTPSent) {
+            // Now check if code is valid
+            // Then store user data
+
             return res
 				.status(400)
 				.send({ message: "An Email sent to your account please verify" });
