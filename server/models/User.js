@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require("joi");
+import { body } from 'express-validator';
 
 const UserSchema = new mongoose.Schema({
     name:{
@@ -42,13 +43,11 @@ const UserSchema = new mongoose.Schema({
 const User = mongoose.model('User', UserSchema);
 
 const validate = user =>{
-    console.log('4', 4)
     const schema = Joi.object({
         email: Joi.string().email().required(),
         password: Joi.string().min(7).required().strict(),
     });
 
-    console.log('5', 5)
     return schema.validate(user);
 }
 

@@ -4,15 +4,14 @@ const jwt = require('jsonwebtoken');
 const morgan = require('morgan');
 const crypto = require('crypto');
 const cookieparser = require('cookie-parser');
-// const nodemailer = require('nodemailer');
 const createError = require('http-errors');
 const connectDB = require('./config/db');
 
-////////////////////// END OF IMPORTS //////////////////////
+// ! //////////////////// END OF IMPORTS //////////////////////
 
 const PORT = process.env.PORT || 5000;
 
-// MIDDLEWARES
+// &MIDDLEWARES
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieparser());
@@ -21,12 +20,12 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 };
 
-// VIEW ENGINE
+// &VIEW ENGINE
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 app.engine('ejs', require('ejs').__express);
 
-// Imports all of the routes from ./routes/index.js
+// *Imports all of the routes from ./routes/index.js
 const routes = require('./routes/index');
 app.use(routes);
 
@@ -49,6 +48,13 @@ app.use((err, req, res, next) => {
     }
   })
 })
+
+// &VIEW ENGINE
+const { engine } = require('express-handlebars');
+
+app.set('view engine', 'handlebars')
+app.set('views', __dirname + '/views');
+app.engine('handlebars', engine({defaultLayout: "main"}));
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
