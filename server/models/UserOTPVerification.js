@@ -5,7 +5,7 @@ const UserOTPVerificationSchema = new Schema ({
     userId: String,
     otp: String,
     createdAt: Date,
-    exporedAt: Date,
+    expiredAt: Date,
 });
 
 const UserOTPVerification = mongoose.model(

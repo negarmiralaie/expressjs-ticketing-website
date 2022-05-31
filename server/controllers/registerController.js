@@ -1,7 +1,9 @@
 const { User, validate } = require('../models/User');
+const UserOTPVerification = require('../models/UserOTPVerification');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const sendOTPVerificationMail = require('../helpers/sendOTPVerificationMail');
+const uuid = require('uuid');
+const sendSMS = require('../helpers/sendSMS');
 
 const handleRegister = async (req, res) => {
 
@@ -40,33 +42,40 @@ const handleRegister = async (req, res) => {
         // First hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const emailToken = jwt.sign({ email }, process.env.EMAIL_SECRET, {
-            expiresIn: '1d'
-        });
-
         // Now create and store the user in the db
         const user = await User.create({
             name,
             familyName,
             email,
             "password": hashedPassword,
-            emailToken
+            "id": uuid.v4()
         });
 
-        const foundUser = await User.findOne({email});
+        // Crete OTP
+        const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
 
-        // Now send verification email
-        const isOTPSent = sendOTPVerificationMail(foundUser.id, foundUser.email);
+        // Store OTP in OTP db
+        const userOTPRecord = await UserOTPVerification.create({ 
+            "id": user.id,
+            otp,
+            "createdAt": Date.now(),
+            "expiredAt": Date.now() + 60 * 1000
+        })
 
+        // Now send verification SMS
+        const isOTPSent = await sendSMS(`
+            This is your verification code: ${otp}, Remember it expires in 1 minute!
+        `);
+
+        const userId = user.id;
         if (isOTPSent) {
-            // Now check if code is valid
-            // Then store user data
-
+            console.log('otp', otp);
+            console.log('userId', userId);
             return res
 				.status(400)
-				.send({ message: "An Email sent to your account please verify" });
+				.send({ message: "کد احراز هویت برای شما پیامک شد.", data: { userId } });
         } else {
-            return res.status(500).send({ message: "Internal Server Error" });
+            return res.status(500).send({ message: "خطای سرور" });
         }
     } catch (error) {
         return res.status(500).json({
