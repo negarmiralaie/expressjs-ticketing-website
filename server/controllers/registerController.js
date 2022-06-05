@@ -134,39 +134,57 @@ const handleRegister = async (req, res) => {
         // First hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Now create and store the user in the db
-        const user = await User.create({
-            name,
-            familyName,
-            email,
-            "password": hashedPassword,
-            "id": uuid.v4(),
-            // verificationId: 
-        });
+        // // Now create and store the user in the db
+        // const user = await User.create({
+        //     name,
+        //     familyName,
+        //     email,
+        //     "password": hashedPassword,
+        //     "id": uuid.v4(),
+        //     // verificationId: 
+        // });
 
         // Crete OTP
         const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
 
         // Store OTP in OTP db
         const userOTPRecord = await UserOTPVerification.create({ 
-            "id": user.id,
+            // "id": user.id,
             otp,
             "createdAt": Date.now(),
             "expiredAt": Date.now() + 60 * 1000
         })
+
+        console.log('otp', otp);
+
+        // console.log('object', userOTPRecord.id)
+
+        // Now create and store the user in the db
+        const user = await User.create({
+            name,
+            familyName,
+            email,
+            "password": hashedPassword,
+            // "id": uuid.v4(),
+            "verificationId" : userOTPRecord.id
+        });
+
+        console.log('user.verificationId', user.verificationId)
 
         // Now send verification SMS
         const isOTPSent = await sendSMS(`
             This is your verification code: ${otp}, Remember it expires in 1 minute!
         `);
 
-        const userId = userOTPRecord.id;
+        const verificationId = userOTPRecord.id;
         if (isOTPSent) {
             console.log('otp', otp);
-            console.log('userId', userId);
+            console.log('verificationId', verificationId);
+            // const verificationId = user.verificationId;
+
             return res
                 .status(400)
-                .send({ message: "کد احراز هویت برای شما پیامک شد.", data: { userId } });
+                .send({ message: "کد احراز هویت برای شما پیامک شد.", data: { verificationId } });
         } else {
             return res.status(500).send({ message: "خطای سرور" });
         }
