@@ -21,9 +21,9 @@ if (process.env.NODE_ENV === 'development') {
 };
 
 // &VIEW ENGINE
-app.set('view engine', 'ejs');
-app.set('views', __dirname + '/views');
-app.engine('ejs', require('ejs').__express);
+// app.set('view engine', 'ejs');
+// app.set('views', __dirname + '/views');
+// app.engine('ejs', require('ejs').__express);
 
 // *Imports all of the routes from ./routes/index.js
 const routes = require('./routes/index');

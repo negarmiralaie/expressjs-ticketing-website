@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require("joi");
-import { body } from 'express-validator';
+// import { body } from 'express-validator';
 
 const UserSchema = new mongoose.Schema({
     name:{
