@@ -140,7 +140,8 @@ const handleRegister = async (req, res) => {
             familyName,
             email,
             "password": hashedPassword,
-            "id": uuid.v4()
+            "id": uuid.v4(),
+            // verificationId: 
         });
 
         // Crete OTP
@@ -159,7 +160,7 @@ const handleRegister = async (req, res) => {
             This is your verification code: ${otp}, Remember it expires in 1 minute!
         `);
 
-        const userId = user.id;
+        const userId = userOTPRecord.id;
         if (isOTPSent) {
             console.log('otp', otp);
             console.log('userId', userId);

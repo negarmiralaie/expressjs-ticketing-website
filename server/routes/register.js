@@ -7,5 +7,4 @@ const devDto = require('../dto/dev');
 // router.post('register', validateDto(devDto) ,registerController.handleRegister)
 router.route('/register')
     .post(registerController)
-    // .get(registerController.getRegister);
 module.exports = router;
