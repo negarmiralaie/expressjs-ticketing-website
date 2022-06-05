@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Joi = require("joi");
-import { body } from 'express-validator';
 
 const UserSchema = new mongoose.Schema({
     name:{
@@ -26,9 +25,6 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 8,
-    },
-    emailToken:{
-        type: String,
     },
     isVerified:{
         type: String,
