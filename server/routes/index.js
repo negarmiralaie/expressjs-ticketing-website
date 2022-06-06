@@ -7,9 +7,6 @@ const devDto = require('../dto/dev');
 
 router.use('/api/v1/auth', require('./register'));
 router.use('/api/v1/auth', require('./verify-otp'));
-
-// router.use('/api/v1/auth', vallidateDto(devDto), require('./register'));
-// router.use('/api/v1/auth', require('./verify-otp'));
-// router.use('/api/v1/auth', require('./verify-otp'));
+router.use('/api/v1/auth', require('./login'));
 
 module.exports = router;
