@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const crypto = require('crypto');
 const cookieparser = require('cookie-parser');
 const createError = require('http-errors');
+// const expressValidator = require('express-validator');
 const connectDB = require('./config/db');
 
 // ! //////////////////// END OF IMPORTS //////////////////////
@@ -14,6 +15,7 @@ const PORT = process.env.PORT || 5000;
 // &MIDDLEWARES
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// app.use(expressValidator());
 app.use(cookieparser());
 
 if (process.env.NODE_ENV === 'development') {
@@ -27,6 +29,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // *Imports all of the routes from ./routes/index.js
 const routes = require('./routes/index');
+// const apiErrorHandler = require('./error/api-error-handler');
 app.use(routes);
 
 require('dotenv').config();
@@ -49,13 +52,9 @@ app.use((err, req, res, next) => {
   })
 })
 
-// &VIEW ENGINE
-const { engine } = require('express-handlebars');
-
-app.set('view engine', 'handlebars')
-app.set('views', __dirname + '/views');
-app.engine('handlebars', engine({defaultLayout: "main"}));
+// app.use(apiErrorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
