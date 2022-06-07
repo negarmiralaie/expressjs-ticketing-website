@@ -17,14 +17,7 @@ const createAccessToken = (id) =>{
 
 class loginHandler{
     handleLogin = async (req, res) => {
-        const { error } = validate(req.body);
-        // if (error) return res.status(400).json(error.details[0].message);
-    
         let { phoneNumber, password } = req.body;
-        if (!phoneNumber || !password) return res.status(400).json({ 'message': 'Username and password are required.' });
-    
-        phoneNumber = phoneNumber.trim();
-        password = password.trim();
         
         const foundUser = await User.findOne({phoneNumber});
         if (!foundUser) return res.status(401).json({ message: "user does not exist" }); //Unauthorized

@@ -6,20 +6,7 @@ const sendSMS = require('../helpers/sendSMS');
 
 class registerController{
     async handleRegister(req, res){
-        const { error } = validate(req.body);
-        // if (error) return res.status(400).json(error.details[0].message);
-        let { name, familyName, phoneNumber, password } = req.body;
-        
-        if ( !name || !familyName || !phoneNumber || !password) return res.status(400).json({
-            'message': 'All fields are required.'
-        });
-    
-        name = name.trim();
-        familyName = familyName.trim();
-        phoneNumber = phoneNumber.trim();
-        password = password.trim();
-    
-        // Check phone number
+        const { name, familyName, phoneNumber, password } = req.body;
     
         // check for duplicate usernames in the db
         const duplicateUser = await User.findOne({ phoneNumber }).exec();
@@ -29,7 +16,6 @@ class registerController{
     
         // If everything was okay and phoneNumber wasnt already in the db
         try {
-    
             // First hash the password
             const hashedPassword = await bcrypt.hash(password, 10);
     
