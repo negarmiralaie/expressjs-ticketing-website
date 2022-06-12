@@ -1,4 +1,4 @@
-const { User, validate } = require('../models/User');
+const { User } = require('../models/User');
 const UserOTPVerification = require('../models/UserOTPVerification');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -7,7 +7,8 @@ const sendSMS = require('../helpers/sendSMS');
 class registerController{
     async handleRegister(req, res){
         const { name, familyName, phoneNumber, password } = req.body;
-    
+        console.log('User', User)
+
         // check for duplicate usernames in the db
         const duplicateUser = await User.findOne({ phoneNumber }).exec();
         if (duplicateUser) return res.status(409).json({ 
@@ -16,9 +17,6 @@ class registerController{
     
         // If everything was okay and phoneNumber wasnt already in the db
         try {
-            // First hash the password
-            const hashedPassword = await bcrypt.hash(password, 10);
-    
             // Crete OTP
             const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
     
@@ -36,7 +34,7 @@ class registerController{
                 name,
                 familyName,
                 phoneNumber,
-                "password": hashedPassword,
+                password,
                 "verificationId" : userOTPRecord.id
             });
     

@@ -17,10 +17,7 @@ class resetPasswordController{
             // If we reach here, it means token is successfully verified, otherwised it will directly go to catch block
             // console.log(payload);
             // Payload as we created it, cintains email and id, and finally update with new password
-            // REMEMBER TO HASH THE PASSWORD BEFORE SAVING IT!!!!
-            // user.password = password;
             await User.updateOne({ password });
-            // res.send(user);
             res.json("Password has been reset!");
     
         } catch (err){

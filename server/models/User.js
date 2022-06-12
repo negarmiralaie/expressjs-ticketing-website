@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
-const Joi = require("joi");
+const Schema = mongoose.Schema;
+// const TicketSchema = require('./Ticket');
+const bcrypt = require('bcrypt');
 
-const UserSchema = new mongoose.Schema({
-    name:{
+const UserSchema = new Schema({
+    name:{ 
         type: String,
         required: true,
         maxlength: 32,
@@ -37,20 +39,27 @@ const UserSchema = new mongoose.Schema({
     },
     verificationId:{
         type: String
-    }
+    },
+    tickets: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Ticket' 
+    }]
 });
+
+UserSchema.pre("save", async function(next){
+    try{
+        if(this.isModified("password")){
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(this.password, salt);
+            this.password = hashedPassword;
+            next();
+        }
+        next();
+    } catch (error){
+        next(error);
+    }
+})
 
 const User = mongoose.model('User', UserSchema);
 
-const validate = user =>{
-    const schema = Joi.object({
-        password: Joi.string().min(7).required().strict(),
-    });
-
-    return schema.validate(user);
-}
-
-module.exports = {
-    User,
-    validate,
-};
+module.exports = { User };
