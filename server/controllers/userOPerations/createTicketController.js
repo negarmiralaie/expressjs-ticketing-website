@@ -16,7 +16,6 @@ class createTicketController {
             let foundUser = await User.findOne({ userId });
             if (!foundUser) return res.status(401).json({ message: "کاربر وجود ندارد." }); //Unauthorized
 
-            const foundUserId = foundUser.ObjectId;
             const ticket = await TicketModel.create ({
                 title,
                 description,
@@ -24,8 +23,10 @@ class createTicketController {
                 "user": foundUser
             });
 
+            // Now attach ticket to its user
             await User.updateMany({ userId },{$push:{"tickets": ticket}});
             await foundUser.save;
+            return res.status(200).json({ message: "تیکت با موفقیت ایجاد شد."});
         } catch(error){
             return res.status(500).send({ message: "خطای سرور" });
         }
