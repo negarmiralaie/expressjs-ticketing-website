@@ -40,10 +40,23 @@ const UserSchema = new Schema({
     verificationId:{
         type: String
     },
-    tickets: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Ticket' 
+    // refreshToken:{
+    //     type: String,
+    //     required: true
+    // },
+    roles:[{
+        type: Array,
+        default: "User"
+    }],
+    tickets:[{
+        type: mongoose.Types.ObjectId,
+        ref: "ticket"
     }]
+    // tickets: [
+    //     {
+    //     type: Schema.ObjectId,
+    //     ref: "ticket" 
+    // }]
 });
 
 UserSchema.pre("save", async function(next){

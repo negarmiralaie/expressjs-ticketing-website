@@ -10,6 +10,6 @@ router.use('/api/v1/auth', require('./forgot-password'));
 router.use('/api/v1/auth', require('./reset-password'));
 
 // Ticket operations
-router.use('/api/v1/ticket', require('./ticket/create-ticket'));
+router.use('/api/v1/ticket', require('./user/create-ticket'));
 
 module.exports = router;

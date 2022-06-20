@@ -12,7 +12,7 @@ const TicketSchema = new Schema({
     },
     status: {
         type: String,
-        default: 'Pending',
+        default: 'در انتظار پاسخگویی',
         required: [true, "Status is required"]
     },
     date:{
@@ -24,7 +24,8 @@ const TicketSchema = new Schema({
         required: [true, "Request type is required"]
     },
     user: { 
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
         ref: 'user'
     }
 });

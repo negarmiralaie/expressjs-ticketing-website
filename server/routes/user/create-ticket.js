@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const createTicketController = require('../../controllers/ticketOperaions/createTicketController');
+const createTicketController = require('../../controllers/userOPerations/createTicketController');
 // const { validateLoginFields, validate } = require('../middleware/validateAuthFields/validateAuthFields');
 
 // router.post('/', validateLoginFields, validate , loginController.handleLogin)
