@@ -1,4 +1,5 @@
-const { User, validate } = require('../models/User');
+const { User } = require('../models/User');
+const TicketModel = require('../models/Ticket')
 const UserOTPVerification = require('../models/UserOTPVerification');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -7,18 +8,16 @@ const sendSMS = require('../helpers/sendSMS');
 class registerController{
     async handleRegister(req, res){
         const { name, familyName, phoneNumber, password } = req.body;
-    
+        console.log('User', User)
+
         // check for duplicate usernames in the db
         const duplicateUser = await User.findOne({ phoneNumber }).exec();
         if (duplicateUser) return res.status(409).json({ 
-            message: "User already exists! Login Instead" 
+            message: "شماره تلفن قبلا ثبت شده است." 
         }); //Conflict 
     
         // If everything was okay and phoneNumber wasnt already in the db
         try {
-            // First hash the password
-            const hashedPassword = await bcrypt.hash(password, 10);
-    
             // Crete OTP
             const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
     
@@ -30,14 +29,22 @@ class registerController{
             })
     
             console.log('otp', otp);
+
+            // const ticket = await TicketModel.create ({
+            //     "title": "t",
+            //     "description" : "d",
+            //     "requestType": "r",
+            // });
     
             // Now create and store the user in the db
             const user = await User.create({
                 name,
                 familyName,
                 phoneNumber,
-                "password": hashedPassword,
-                "verificationId" : userOTPRecord.id
+                password,
+                "verificationId" : userOTPRecord.id,
+                // "ticket": {ticket}
+                // "roles": { "User": 2001 },
             });
     
             console.log('user.verificationId', user.verificationId)
@@ -53,7 +60,7 @@ class registerController{
                 console.log('verificationId', verificationId);
     
                 return res
-                    .status(400)
+                    .status(201)
                     .send({ message: "کد احراز هویت برای شما پیامک شد.", data: { verificationId } });
             } else {
                 return res.status(500).send({ message: "خطای سرور" });
