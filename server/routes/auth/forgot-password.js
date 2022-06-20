@@ -1,6 +1,8 @@
 const router = require('express').Router();
-const forgotPasswordController = require('../controllers/forgotPasswordContorller');
-const { validateForgotPasswordFields, validate } = require('../middleware/validateAuthFields/validateAuthFields');
+const forgotPasswordController = require('../../controllers/authOperations/forgotPasswordContorller');
+
+
+const { validateForgotPasswordFields, validate } = require('../../middleware/validateAuthFields/validateAuthFields');
 // const ROLES_LIST = require("../config/roles_list");
 // const verifyRoles = require("../middleware/verifyRoles");
 

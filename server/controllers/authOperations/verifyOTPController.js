@@ -1,5 +1,5 @@
-const UserOTPVerification = require("../models/UserOTPVerification");
-const { User } = require('../models/User');
+const UserOTPVerification = require("../../models/UserOTPVerification");
+const UserModel = require('../../models/User');
 
 class verifyOTPController{
     verifyOTP = async (req, res) => {
@@ -27,7 +27,7 @@ class verifyOTPController{
             // Now user is verified!!
             
             // find a user with verificationId and change its isVerified to true
-            await User.findOneAndUpdate({verificationId}, {"isVerified": true});
+            await UserModel.findOneAndUpdate({verificationId}, {"isVerified": true});
     
             return res.status(200).json("با موفقیت احراز هویت شدید.") //Authorized
         }

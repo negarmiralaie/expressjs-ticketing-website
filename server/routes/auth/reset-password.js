@@ -12,8 +12,9 @@
 // module.exports = router;
 
 const router = require('express').Router();
-const resetPasswordController = require('../controllers/resetPasswordController');
-const { validateResetPasswordFields, validate } = require('../middleware/validateAuthFields/validateAuthFields');
+const resetPasswordController = require('../../controllers/authOperations/resetPasswordController');
+
+const { validateResetPasswordFields, validate } = require('../../middleware/validateAuthFields/validateAuthFields');
 
 router.post('/reset-password/:id/:token', validateResetPasswordFields, validate , resetPasswordController.handleResetPassword)
     

@@ -1,17 +1,17 @@
-const { User } = require('../models/User');
-const TicketModel = require('../models/Ticket')
-const UserOTPVerification = require('../models/UserOTPVerification');
+const UserModel = require('../../models/User');
+const TicketModel = require('../../models/Ticket');
+const UserOTPVerification = require("../../models/UserOTPVerification");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const sendSMS = require('../helpers/sendSMS');
+const sendSMS = require('../../helpers/sendSMS');
 
 class registerController{
     async handleRegister(req, res){
         const { name, familyName, phoneNumber, password } = req.body;
-        console.log('User', User)
+        console.log('UserModel', UserModel)
 
         // check for duplicate usernames in the db
-        const duplicateUser = await User.findOne({ phoneNumber }).exec();
+        const duplicateUser = await UserModel.findOne({ phoneNumber }).exec();
         if (duplicateUser) return res.status(409).json({ 
             message: "شماره تلفن قبلا ثبت شده است." 
         }); //Conflict 
@@ -37,7 +37,7 @@ class registerController{
             // });
     
             // Now create and store the user in the db
-            const user = await User.create({
+            const user = await UserModel.create({
                 name,
                 familyName,
                 phoneNumber,

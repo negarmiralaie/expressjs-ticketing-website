@@ -1,11 +1,11 @@
-const {User} = require('../models/User');
+const UserModel = require('../../models/User');
 const jwt = require('jsonwebtoken');
 
 class resetPasswordController{
     handleResetPassword = async (req, res) => {
         const { id, token } = req.params;
         const { password, confirmPassword } = req.body;
-        const user = await User.findOne({id});
+        const user = await UserModel.findOne({id});
         if (!user) return res.status(400).json({ message: "user does not exist" });
 
         // const secret = process.env.JWT_SECRET + user.password;
@@ -17,7 +17,7 @@ class resetPasswordController{
             // If we reach here, it means token is successfully verified, otherwised it will directly go to catch block
             // console.log(payload);
             // Payload as we created it, cintains email and id, and finally update with new password
-            await User.updateOne({ password });
+            await UserModel.updateOne({ password });
             res.json("Password has been reset!");
     
         } catch (err){
