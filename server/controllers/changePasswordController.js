@@ -19,7 +19,8 @@ class changePasswordController{
             if( isCurrentPasswordMatch ) return res.status(401).json("رمز وارد شده صحیح نیست.")
             if( newPassword !== confirmNewPassword ) return res.status(400).json("پسورد جدید با تکرار آن برابر نیست.")
 
-            await User.updateOne({ "password": newPassword });
+            // await User.updateOne({ "password": newPassword });
+            await User.findOneAndUpdate({ userId }, { "password": newPassword });
 
 
         } catch(err){
