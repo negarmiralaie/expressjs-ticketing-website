@@ -11,15 +11,25 @@ class createTicketController {
 
         try{
             // Now find user with given id
-            let foundUser = await UserModel.findOne({ userId });
+            console.log('userId', userId)
+            // let foundUser = await UserModel.findOne({ userId });
+            const ObjectId = require('mongodb').ObjectID;
+            let foundUser = await UserModel.find({"_id": ObjectId(userId)})
             if (!foundUser) return res.status(401).json({ message: "کاربر وجود ندارد." }); //Unauthorized
 
+            console.log('foundUser', foundUser[0])
+            console.log(1)
             const ticket = await TicketModel.create ({
                 title,
                 description,
                 requestType,
-                "user": foundUser
+                "status": "pending",
+                "user": foundUser[0]
             });
+
+            console.log(2)
+
+            console.log(ticket)
 
             // Now attach ticket to its user
             await UserModel.updateMany({ userId },{$push:{"tickets": ticket}});

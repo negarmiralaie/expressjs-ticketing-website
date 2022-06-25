@@ -5,9 +5,13 @@ class resetPasswordController{
     handleResetPassword = async (req, res) => {
         const { id, token } = req.params;
         const { password, confirmPassword } = req.body;
-        const user = await UserModel.findOne({id});
+        // const user = await UserModel.findOne({id});
+        // const fileId = mongoose.Types.ObjectId()
+        var ObjectId = require('mongodb').ObjectID;
+        const user = await UserModel.find({"_id": ObjectId(id)})
         if (!user) return res.status(400).json({ message: "user does not exist" });
 
+        console.log('user', user)
         // const secret = process.env.JWT_SECRET + user.password;
         try{
             // const payload = jwt.verify(token, secret, payload);
