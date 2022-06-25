@@ -1,5 +1,5 @@
-const sendOTPsms = require('../helpers/sendOTPsms');
-const UserOTPVerification = require("../models/UserOTPVerification");
+const sendOTPsms = require('../../helpers/sendOTPsms');
+const UserOTPVerification = require("../../models/UserOTPVerification");
 
 class sendOTPController {
     sendSms = async (req, res) => {

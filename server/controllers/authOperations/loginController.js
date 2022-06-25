@@ -1,4 +1,4 @@
-const {User, validate} = require('../models/User');
+const UserModel = require('../../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const cookie = require('cookie-parser');
@@ -22,7 +22,7 @@ class loginHandler{
     handleLogin = async (req, res) => {
         let { phoneNumber, password } = req.body;
         
-        const foundUser = await User.findOne({phoneNumber});
+        const foundUser = await UserModel.findOne({phoneNumber});
         if (!foundUser) return res.status(401).json({ message: "user does not exist" }); //Unauthorized
     
         // const secret = process.env.JWT_SECRET + user.password;

@@ -1,4 +1,4 @@
-const UserOTPVerification = require("../models/UserOTPVerification");
+const UserOTPVerification = require("../../models/UserOTPVerification");
 
 const verifyOtp = (req, res) =>{
     try{

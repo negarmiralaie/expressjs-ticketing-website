@@ -1,5 +1,5 @@
-const {User, validate} = require('../models/User');
-const sendSMS = require('../helpers/sendSMS');
+const UserModel = require('../../models/User');
+const sendSMS = require('../../helpers/sendSMS');
 const jwt = require('jsonwebtoken');
 
 const PORT = process.env.PORT || 5000;
@@ -8,7 +8,7 @@ class forgotPasswordController{
     handleForgotPassword = async (req, res) => {
         const { phoneNumber } = req.body;
 
-        const foundUser = await User.findOne({ phoneNumber });
+        const foundUser = await UserModel.findOne({ phoneNumber });
         if (!foundUser) return res.status(400).json('No user with that phone number exists!!');
     
         // Now user with given email exists so we should create a one tmie link that is valid for 10 mins
@@ -18,7 +18,7 @@ class forgotPasswordController{
             email: foundUser.email,
             id: foundUser.id,
         }
-        const token = jwt.sign(payload, secret, {expiresIn: '10m'});
+        const token = jwt.sign(payload, secret, {expiresIn: '1m'});
 
         // Remember that this link is valid only once, otherwise it will give us "invalid signature password"!!
         // ???whatt???

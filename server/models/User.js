@@ -46,7 +46,7 @@ const UserSchema = new Schema({
     // },
     roles:[{
         type: Array,
-        default: "User"
+        default: "user"
     }],
     tickets:[{
         type: mongoose.Types.ObjectId,
@@ -75,4 +75,4 @@ UserSchema.pre("save", async function(next){
 
 const User = mongoose.model('User', UserSchema);
 
-module.exports = { User };
+module.exports = User;

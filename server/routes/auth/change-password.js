@@ -1,6 +1,8 @@
 const router = require('express').Router();
-const changePasswordController = require('../controllers/changePasswordController');
-const { validateChangePasswordFields, validate } = require('../middleware/validateAuthFields/validateChangePasswordFields');
+const changePasswordController = require('../../controllers/authOperations/changePasswordController');
+
+const { validateChangePasswordFields, validate } = require('../../middleware/validateAuthFields/validateChangePasswordFields');
+
 
 router.post('/change-password', 
             // validateChangePasswordFields, 

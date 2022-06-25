@@ -12,7 +12,7 @@ const TicketSchema = new Schema({
     },
     status: {
         type: String,
-        default: 'در انتظار پاسخگویی',
+        // default: 'pending',
         required: [true, "Status is required"]
     },
     date:{
