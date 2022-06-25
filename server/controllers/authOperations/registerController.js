@@ -29,12 +29,6 @@ class registerController{
             })
     
             console.log('otp', otp);
-
-            // const ticket = await TicketModel.create ({
-            //     "title": "t",
-            //     "description" : "d",
-            //     "requestType": "r",
-            // });
     
             // Now create and store the user in the db
             const user = await UserModel.create({
@@ -43,8 +37,6 @@ class registerController{
                 phoneNumber,
                 password,
                 "verificationId" : userOTPRecord.id,
-                // "ticket": {ticket}
-                // "roles": { "User": 2001 },
             });
     
             console.log('user.verificationId', user.verificationId)
