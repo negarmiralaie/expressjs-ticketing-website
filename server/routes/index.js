@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const devDto = require('../dto/dev');
-// const loginRequired = require('../middlewares/loginRequired');
 
 // Auth operations
 router.use('/api/v1/auth', require('./auth/register'));
