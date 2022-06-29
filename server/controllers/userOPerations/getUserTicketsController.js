@@ -5,7 +5,7 @@ const ObjectId = require('mongodb').ObjectID;
 // /ticket/get-user-tickets/:id
 
 class getUserTicketsController {
-    handlegetUserTickets = async (req, res) => {
+    handleGetUserTickets = async (req, res) => {
         const userId = req.params.id;
 
         try{

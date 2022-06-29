@@ -5,7 +5,7 @@ const ObjectId = require('mongodb').ObjectID;
 // /ticket/filter-user-tickets/:id/tickets?filter="pending"
 
 class filterUserTicketsController {
-    handlefilterUserTickets = async (req, res) => {
+    handleFilterUserTickets = async (req, res) => {
 
         try{
             const userId = req.query.id;
