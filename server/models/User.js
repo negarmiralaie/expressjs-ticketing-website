@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-// const TicketSchema = require('./Ticket');
 const bcrypt = require('bcrypt');
 
 const UserSchema = new Schema({
@@ -40,10 +39,6 @@ const UserSchema = new Schema({
     verificationId:{
         type: String
     },
-    // refreshToken:{
-    //     type: String,
-    //     required: true
-    // },
     roles:[{
         type: Array,
         default: "user"
@@ -52,11 +47,6 @@ const UserSchema = new Schema({
         type: mongoose.Types.ObjectId,
         ref: "ticket"
     }]
-    // tickets: [
-    //     {
-    //     type: Schema.ObjectId,
-    //     ref: "ticket" 
-    // }]
 });
 
 UserSchema.pre("save", async function(next){

@@ -1,14 +1,10 @@
 const UserModel = require('../../models/User');
-const TicketModel = require('../../models/Ticket');
 const UserOTPVerification = require("../../models/UserOTPVerification");
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const sendSMS = require('../../helpers/sendSMS');
 
 class registerController{
     async handleRegister(req, res){
         const { name, familyName, phoneNumber, password } = req.body;
-        console.log('UserModel', UserModel)
 
         // check for duplicate usernames in the db
         const duplicateUser = await UserModel.findOne({ phoneNumber }).exec();

@@ -12,7 +12,6 @@ const TicketSchema = new Schema({
     },
     status: {
         type: String,
-        // default: 'pending',
         required: [true, "Status is required"]
     },
     date:{

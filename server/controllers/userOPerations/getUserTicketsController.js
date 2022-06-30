@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const TicketModel = require('../../models/Ticket');
 const UserModel = require('../../models/User');
 const ObjectId = require('mongodb').ObjectID;
@@ -6,15 +5,13 @@ const ObjectId = require('mongodb').ObjectID;
 // /ticket/get-user-tickets/:id
 
 class getUserTicketsController {
-    handlegetUserTickets = async (req, res) => {
+    handleGetUserTickets = async (req, res) => {
         const userId = req.params.id;
 
         try{
             // Now find user with given id
             const foundUser = await UserModel.find({"_id": ObjectId(userId)})
 
-            // let foundUser = await UserModel.findOne({ userId });
-            console.log('foundUser', foundUser[0])
             if (!foundUser) return res.status(401).json({ message: "کاربر وجود ندارد." }); //Unauthorized
             
             // Use toString for converting "new ObjectId to plain id"

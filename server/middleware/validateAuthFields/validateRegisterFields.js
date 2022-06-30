@@ -34,10 +34,3 @@ exports.validateRegisterFields = [
         .isLength({ min: 8 })
         .withMessage("Password must be at least 8 characters long")
 ];
-
-// exports.validate = (req, res, next) => {
-//     const error = validationResult(req).array();
-//     if(!error.length) return next();
-
-//     res.status(400).json({success: false, error: error[0].msg});
-// }
