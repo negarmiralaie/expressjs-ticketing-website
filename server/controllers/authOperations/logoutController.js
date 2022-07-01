@@ -1,5 +1,6 @@
-const UserModel = require('../../models/User');
-const jwt = require('jsonwebtoken');
+// const UserModel = require('../../models/User');
+// const jwt = require('jsonwebtoken');
+// const createError = require("http-errors");
 
 class logoutController{
     handlelogout = async (req, res) => {

@@ -1,16 +1,18 @@
 const UserModel = require('../../models/User');
 const UserOTPVerification = require("../../models/UserOTPVerification");
 const sendSMS = require('../../helpers/sendSMS');
+const createError = require("http-errors");
 
 class registerController{
-    async handleRegister(req, res){
+    async handleRegister(req, res, next){
         const { name, familyName, phoneNumber, password } = req.body;
 
         // check for duplicate usernames in the db
         const duplicateUser = await UserModel.findOne({ phoneNumber }).exec();
-        if (duplicateUser) return res.status(409).json({ 
-            message: "شماره تلفن قبلا ثبت شده است." 
-        }); //Conflict 
+        // if (duplicateUser) return res.status(409).json({ 
+        //     message: "شماره تلفن قبلا ثبت شده است." 
+        // }); //Conflict 
+        if (duplicateUser) throw createError.Conflict("کاربر قبلا ثبت شده است.")
     
         // If everything was okay and phoneNumber wasnt already in the db
         try {
@@ -51,12 +53,14 @@ class registerController{
                     .status(201)
                     .send({ message: "کد احراز هویت برای شما پیامک شد.", data: { verificationId } });
             } else {
-                return res.status(500).send({ message: "خطای سرور" });
+                throw createError.BadRequest();
+                // return res.status(500).send({ message: "خطای سرور" });
             }
         } catch (error) {
-            return res.status(500).json({
-                'message': error.message
-            });
+            next(error);
+            // return res.status(500).json({
+            //     'message': error.message
+            // });
         }
     }
 

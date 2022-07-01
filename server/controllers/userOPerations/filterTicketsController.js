@@ -1,11 +1,12 @@
 const TicketModel = require('../../models/Ticket');
 const UserModel = require('../../models/User');
 const ObjectId = require('mongodb').ObjectID;
+const createError = require("http-errors");
 
 // /ticket/filter-user-tickets/:id/tickets?filter="pending"
 
 class filterUserTicketsController {
-    handleFilterUserTickets = async (req, res) => {
+    handleFilterUserTickets = async (req, res, next) => {
 
         try{
             const userId = req.query.id;
@@ -15,7 +16,9 @@ class filterUserTicketsController {
 
             // Now find user with given id
             const foundUser = await UserModel.find({"_id": ObjectId(userId)})
-            if (!foundUser) return res.status(401).json({ message: "کاربر وجود ندارد." }); //Unauthorized
+            // if (!foundUser) return res.status(401).json({ message: "کاربر وجود ندارد." }); //Unauthorized
+            if (!foundUser) throw createError.BadRequest("کاربرموجود نمیباشد.")
+
             // Use toString for converting "new ObjectId to plain id"
             const foundUserTicketIds = await foundUser[0].tickets.map( ticketObjectId => ticketObjectId.toString());
             const ticketsArr = [];
@@ -45,7 +48,8 @@ class filterUserTicketsController {
 
             return res.status(200).json({ data:{arr} ,message: "تیکت ها با موفقیت دریافت شدند."});
         } catch(error){
-            return res.status(500).json({ message: "خطای سرور" });
+            next(error);
+            // return res.status(500).json({ message: "خطای سرور" });
         }
     }
 }

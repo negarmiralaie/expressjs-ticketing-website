@@ -19,12 +19,12 @@ const connectDB = async ()  => {
             console.log('Mongoose connection is disconnected.')
         });
 
-        // process.on('SIGINT', () => {
-            // mongoose.connection.close(() => {
-                // console.log('Mongoose connection is disconnected through app termination');
-                // process.exit(0);
-            // });
-        // })
+        // This event is called whenever you press ctrl+c to stop your app
+        process.on('SIGINT', async()=>{
+            await mongoose.connection.close();
+            // waits untill app is stopped then disconnected event is called
+            process.exit(0);
+        })
 
     } catch(err) {
         console.log(err);
