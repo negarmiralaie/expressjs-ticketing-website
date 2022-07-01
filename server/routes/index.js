@@ -11,9 +11,9 @@ router.use('/api/v1/auth', require('./auth/reset-password'));
 router.use('/api/v1/auth', require('./auth/change-password'));
 
 // Ticket operations
-router.use('/api/v1/ticket', require('./user/create-ticket'));
-router.use('/api/v1/ticket', require('./user/delete-ticket'));
-router.use('/api/v1/ticket', require('./user/get-user-tickets'));
-router.use('/api/v1/ticket', require('./user/filter-user-tickets'));
+router.use('/api/v1/user', require('./user/create-ticket'));
+router.use('/api/v1/user', require('./user/delete-ticket'));
+router.use('/api/v1/user', require('./user/get-user-tickets'));
+router.use('/api/v1/user', require('./user/filter-user-tickets'));
 
 module.exports = router;

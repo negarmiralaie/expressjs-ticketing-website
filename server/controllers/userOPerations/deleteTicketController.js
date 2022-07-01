@@ -1,9 +1,10 @@
 const TicketModel = require('../../models/Ticket');
 const UserModel = require('../../models/User');
 const ObjectId = require('mongodb').ObjectID;
+const createError = require("http-errors");
 
 class deleteTicketController {
-    handleDeleteTicket = async (req, res) => {
+    handleDeleteTicket = async (req, res, next) => {
 
         try{
 
