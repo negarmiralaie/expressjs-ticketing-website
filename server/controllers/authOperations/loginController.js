@@ -33,7 +33,10 @@ class loginHandler{
             // store token in cookie
             // cookie is automatically sent with every request
             // httpOnly cookie is not available to javascript so it is safe
-            res.cookie('access-token', accessToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000});
+            res.cookie('access-token', accessToken, {
+                 maxAge: 24 * 60 * 60 * 1000,
+                 httpOnly: true
+            });
             
             console.log('id', userId);
             res.status(200).json({ data: {accessToken, userId}, message: "logged in successfully" });
