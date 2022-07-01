@@ -28,7 +28,7 @@ class forgotPasswordController{
         `);
 
         const id = foundUser.id;
-        return res.json("Reset link has been sent to your phone!", token, id);    
+        return res.status(200).json({ data:{token, id} ,message: "لینک با موفقیت برای شما ارسال شد."});
     }
 }
 

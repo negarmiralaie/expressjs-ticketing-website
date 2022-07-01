@@ -11,6 +11,8 @@ class filterUserTicketsController {
             const userId = req.query.id;
             const desiredTicketStatus = req.query.status;
 
+            console.log('desiredTicketStatus', desiredTicketStatus)
+
             // Now find user with given id
             const foundUser = await UserModel.find({"_id": ObjectId(userId)})
             if (!foundUser) return res.status(401).json({ message: "کاربر وجود ندارد." }); //Unauthorized
@@ -27,10 +29,19 @@ class filterUserTicketsController {
             // now filter ticketsArr to get tickets which match...
             const arr = [];
 
+            console.log(1)
+
+            // console.log('ticketsArr', ticketsArr[4][0].status)
+
             for(let i=0; i<ticketsArr.length; i++){
-                if(ticketsArr[i][0].status === desiredTicketStatus) 
-                    arr.push(ticketsArr[i][0]);
+                console.log(i)
+                if(ticketsArr[i][0]){
+                    if(ticketsArr[i][0].status === desiredTicketStatus)
+                        arr.push(ticketsArr[i][0]);
+                }
             }
+
+            console.log(2)
 
             return res.status(200).json({ data:{arr} ,message: "تیکت ها با موفقیت دریافت شدند."});
         } catch(error){
