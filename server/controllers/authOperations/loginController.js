@@ -16,7 +16,7 @@ class loginHandler{
         
         const foundUser = await UserModel.findOne({phoneNumber});
         // if (!foundUser) return res.status(401).json({ message: "user does not exist" }); //Unauthorized
-        if (!foundUser) throw createError.BadRequest("کاربر موجود نمیباشد.")
+        if (!foundUser) throw createError.NotFound(`User with phone number ${phoneNumber} does not exist.`);
 
         try{
             // If we reach here, it means token is successfully verified, otherwised it will directly go to catch block
