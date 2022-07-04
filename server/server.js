@@ -6,7 +6,7 @@ const connectDB = require('./config/db');
 
 // ! //////////////////// END OF IMPORTS //////////////////////
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 // &MIDDLEWARES
 app.use(express.json());

@@ -1,6 +1,7 @@
 const UserModel = require('../../models/User');
 const UserOTPVerification = require("../../models/UserOTPVerification");
 const sendSMS = require('../../helpers/sendSMS');
+const { signAccessToken } = require("../../helpers/jwtHelper");
 const createError = require("http-errors");
 
 class registerController{
@@ -9,10 +10,7 @@ class registerController{
 
         // check for duplicate usernames in the db
         const duplicateUser = await UserModel.findOne({ phoneNumber }).exec();
-        // if (duplicateUser) return res.status(409).json({ 
-        //     message: "شماره تلفن قبلا ثبت شده است." 
-        // }); //Conflict 
-        if (duplicateUser) throw createError.Conflict("کاربر قبلا ثبت شده است.")
+        if (duplicateUser) throw createError.Conflict(`User with ${phoneNumber} already exists.`);
     
         // If everything was okay and phoneNumber wasnt already in the db
         try {
@@ -36,12 +34,16 @@ class registerController{
                 password,
                 "verificationId" : userOTPRecord.id,
             });
+
+            const accessToken = await signAccessToken(user._id);
+
+            console.log('user._id', user._id);
     
             console.log('user.verificationId', user.verificationId)
     
             // Now send verification SMS
             const isOTPSent = await sendSMS(`
-                This is your verification code: ${otp}, Remember it expires in 1 minute!
+                This is your verification code: ${otp}, Notice that it expires in 1 minute!
             `);
     
             const verificationId = userOTPRecord.id;
@@ -54,13 +56,9 @@ class registerController{
                     .send({ message: "کد احراز هویت برای شما پیامک شد.", data: { verificationId } });
             } else {
                 throw createError.BadRequest();
-                // return res.status(500).send({ message: "خطای سرور" });
             }
         } catch (error) {
             next(error);
-            // return res.status(500).json({
-            //     'message': error.message
-            // });
         }
     }
 
