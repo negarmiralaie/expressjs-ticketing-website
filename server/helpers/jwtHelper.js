@@ -9,9 +9,8 @@ module.exports = {
             const options = {
                 expiresIn: "1h",
                 issuer: "http://localhost:5000",
-                // audience: userId
             };
-            // We can aldo put exp and iss in payoad but if we put them in both places we will get an error
+            // We can also put exp and iss in payoad but if we put them in both places we will get an error
             JWT.sign(payload, secret, options, (err, token) => {
                 if (err) reject(createError.InternalServerError(err));
                 resolve(token);
