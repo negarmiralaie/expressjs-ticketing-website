@@ -14,8 +14,7 @@ class changePasswordController{
             foundUser = foundUser[0];
             if (!foundUser) throw createError.NotFound(`User with phone number ${phoneNumber} does not exist.`);
 
-            const password = foundUser.password;
-            const isCurrentPasswordMatch =  await foundUser.isValidPassword(password);
+            const isCurrentPasswordMatch =  await foundUser.isValidPassword(currentPassword);
 
             if( isCurrentPasswordMatch ) throw createError.Unauthorized("incorrect credentials");
             if( newPassword !== confirmNewPassword ) throw createError.BadRequest("رمز با تکرار رمز برابر نیست.")

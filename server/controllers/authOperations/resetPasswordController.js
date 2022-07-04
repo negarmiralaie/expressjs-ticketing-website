@@ -22,8 +22,6 @@ class resetPasswordController{
     
         } catch (error){
             next(error)
-            // console.log('err.message', err.message);
-            // res.json(err.message);
         }
     }
 }
