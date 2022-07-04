@@ -7,11 +7,9 @@ class verifyOTPController{
         try{
             const { verificationId, otp } = req.body;
     
-            // if(!otp || !verificationId) return res.status(400).json("درخواست نادرست.");
             if(!otp || !verificationId) throw createError.BadRequest();
             const userVerificationRecords = await UserOTPVerification.findOne({ _id : verificationId }).exec();
             
-            // if( userVerificationRecords.length <= 0 ) return res.status(404).json("کاربر ثبت نشده و یا قبلا احراز هویت شده است.")
             if( userVerificationRecords.length <= 0 ) throw createError.BadRequest("کاربر ثبت نشده یا قبلا احراز هویت شده است.")
             // check if otp is correct:
             console.log('otp', otp);
@@ -23,7 +21,6 @@ class verifyOTPController{
                 // delete user records
                 UserOTPVerification.deleteOne({_id: verificationId}).exec();
                 throw createError.BadRequest("کد منقضی شده است لطفا دوباره درخواست دهید.")
-                // return res.status(403).json("کد منقظی شده است. لطفا دوباره درخواست دهید.");
             }
     
             // Now user is verified!!
@@ -35,7 +32,6 @@ class verifyOTPController{
         }
         catch(error){
             next(error);
-            // return res.status(500).json("خطای سرور");
         }
     }
 }
