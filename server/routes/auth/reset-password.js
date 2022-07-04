@@ -20,7 +20,7 @@ const {
     validate
 } = require('../../middleware/validateAuthFields/validateAuthFields');
 
-router.post('/reset-password/:id/:token',
+router.post('/reset-password',
     verifyAccessToken,
     validateResetPasswordFields,
     validate,
