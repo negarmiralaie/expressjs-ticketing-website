@@ -13,7 +13,7 @@ module.exports = {
             };
             // We can aldo put exp and iss in payoad but if we put them in both places we will get an error
             JWT.sign(payload, secret, options, (err, token) => {
-                if (err) reject(err);
+                if (err) reject(createError.InternalServerError(err));
                 resolve(token);
             })
         })
