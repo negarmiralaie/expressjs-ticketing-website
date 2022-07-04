@@ -63,22 +63,6 @@ UserSchema.pre("save", async function(next){
     }
 });
 
-UserSchema.methods.comparePassword = async function(password){
-    try{
-        return await bcrypt.compare(password, this.password);
-    } catch (error){
-        throw error;
-    }
-};
-
-// UserSchema.methods.isValidPassword = async function (password) {
-//     try{
-//        return await bcrypt.compare(password, this.password);
-//     } catch(error) {
-//         throw error;
-//     }
-// };
-
 UserSchema.methods = {
     isValidPassword: async function (password) {
         try{
