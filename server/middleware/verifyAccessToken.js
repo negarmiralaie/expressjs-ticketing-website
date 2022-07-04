@@ -6,13 +6,14 @@ const verifyAccessToken = (req, res, next) => {
     const cookies = req.cookies;
     const accessToken = cookies['access-token'];
     if (!accessToken) return next(createError.Unauthorized());
-    
+    m
     JWT.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, payload) =>{
-        console.log('err', err)
-        if (err) return next(createError.Unauthorized());
+        if (err){
+            console.log('err', err);        req.userId = payload.userId;
+            const errorMessage = err.name === 'JsonWebTokenError' ? 'Unauthorized' : err.message;
+            return next(createError.Unauthorized(errorMessage));
+        }
         req.userId = payload.userId;
-        // req.payload = payload;
-        // console.log('payload', payload);
         next();
     });
 }
