@@ -14,7 +14,6 @@ class verifyOTPController{
             // check if otp is correct:
             console.log('otp', otp);
             console.log('userVerificationRecords.otp', userVerificationRecords.otp)
-            // if (userVerificationRecords.otp !== otp) return res.status(401).json("کد وارد شده صحیح نمیباشد.");
             if (userVerificationRecords.otp !== otp) throw createError.BadRequest("کد وارد شده صحیح نیست.")
             // If otp was correct, now check if it is not expired:
             if(userVerificationRecords.expiredAt < Date.now()) {
