@@ -26,7 +26,7 @@ class forgotPasswordController{
             const link = `https://localhost:${PORT}/reset-password/${foundUser.id}/${token}`;
             console.log('link', link);
 
-            const isOTPSent = await sendSMS(`
+            const isOTPSent = await sendSMS(phoneNumber, `
                 Check out this link to reset your password: ${link}
             `);
 
