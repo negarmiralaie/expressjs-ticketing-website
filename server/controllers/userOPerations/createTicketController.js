@@ -7,7 +7,9 @@ const createError = require("http-errors");
 
 class createTicketController {
     handleCreateTicket = async (req, res, next) => {
-        const userId = req.params.id;
+        // const userId = req.params.id;
+        const userId = req.userId;
+        console.log('userId', userId);
         const { title, description, requestType } = req.body;
 
         try{
