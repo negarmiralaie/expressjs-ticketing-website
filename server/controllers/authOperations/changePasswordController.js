@@ -1,5 +1,5 @@
 const UserModel = require('../../models/User');
-const jwt = require('jsonwebtoken');
+const JWT = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const ObjectId = require('mongodb').ObjectID;
 const createError = require("http-errors");
@@ -9,18 +9,16 @@ class changePasswordController{
         const { currentPassword, newPassword, confirmNewPassword } = req.body;
 
         try{
-            const cookies = req.cookies;
-            // if (!cookies?.jwt) return res.status(401).json("توکن موجود نمیباشد.");  
-            if (!cookies?.jwt) throw createError.BadRequest('توکن موجود نمیباشد.');
-
-            const jwtToken = cookies.jwt;
-            const userId = jwt.decode(jwtToken).id;
-            let foundUser = await UserModel.find({"_id": ObjectId(userId)})
+            // In verifyAccessToken middleware we got userId from accessToken and saved it in userId so here we have access to userId
+            const userId = req.userId;
+            const foundUser = await UserModel.find({"_id": ObjectId(userId)});
+            if (!foundUser) throw createError.NotFound(`User with phone number ${phoneNumber} does not exist.`);
 
             const isCurrentPasswordMatch = await bcrypt.compare(currentPassword ,foundUser[0].password);
-            
-            if( isCurrentPasswordMatch ) return res.status(401).json("رمز وارد شده صحیح نیست.")
-            // if( newPassword !== confirmNewPassword ) return res.status(400).json("پسورد جدید با تکرار آن برابر نیست.")
+            // const password = foundUser[0].password;
+            // const isCurrentPasswordMatch =  await foundUser.isValidPassword(password);
+
+            if( isCurrentPasswordMatch ) throw createError.Unauthorized("incorrect credentials");
             if( newPassword !== confirmNewPassword ) throw createError.BadRequest("رمز با تکرار رمز برابر نیست.")
             await UserModel.findOneAndUpdate({ userId }, { "password": newPassword });
 
@@ -28,7 +26,6 @@ class changePasswordController{
             
         } catch(error){
             next(error);
-            // return res.status(500).send({ message: "خطای سرور" });
         }
     }
 }

@@ -7,7 +7,7 @@ const { validateChangePasswordFields, validate } = require('../../middleware/val
 router.post('/change-password', 
             // validateChangePasswordFields, 
             // validate , 
-            // verifyAccessToken,
+            verifyAccessToken,
             changePasswordController.handleChangePassword
 )
     
