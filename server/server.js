@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const cookieparser = require('cookie-parser');
 const connectDB = require('./config/db');
 const createError = require("http-errors");
+const swaggerDocs = require("./helpers/swagger");
 
 // ! //////////////////// END OF IMPORTS //////////////////////
 
@@ -29,6 +30,8 @@ connectDB();
 app.use(async(req, res, next)=>{
   next(createError.NotFound('This route does not exist'));
 });
+
+// swaggerDocs(app, PORT);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
