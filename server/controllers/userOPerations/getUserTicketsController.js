@@ -7,13 +7,12 @@ const createError = require("http-errors");
 
 class getUserTicketsController {
     handleGetUserTickets = async (req, res) => {
-        const userId = req.params.id;
 
         try{
+            const userId = req.userId;
             // Now find user with given id
             const foundUser = await UserModel.find({"_id": ObjectId(userId)})
 
-            // if (!foundUser) return res.status(401).json({ message: "کاربر وجود ندارد." }); //Unauthorized
             if (!foundUser) throw createError.BadRequest("کاربر موجود نمیباشد")
             // Use toString for converting "new ObjectId to plain id"
             const foundUserTicketIds = await foundUser[0].tickets.map( ticketObjectId => ticketObjectId.toString());
@@ -29,7 +28,6 @@ class getUserTicketsController {
             return res.status(200).json({ data:{arr} ,message: "تیکت ها با موفقیت دریافت شدند."});
         } catch(error){
             next(error);
-            // return res.status(500).send({ message: "خطای سرور" });
         }
     }
 }

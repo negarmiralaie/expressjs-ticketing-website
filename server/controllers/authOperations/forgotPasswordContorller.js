@@ -2,7 +2,6 @@ const UserModel = require('../../models/User');
 const sendSMS = require('../../helpers/sendSMS');
 const jwt = require('jsonwebtoken');
 const createError = require("http-errors");
-
 const PORT = process.env.PORT || 5000;
 
 class forgotPasswordController{
@@ -11,7 +10,6 @@ class forgotPasswordController{
 
         try{
             const foundUser = await UserModel.findOne({ phoneNumber });
-            // if (!foundUser) return res.status(400).json('No user with that phone number exists!!');
             if (!foundUser) throw createError.BadRequest('کاربری با این شماره تلفن ثبت نشده است.');
             
             const secret = process.env.JWT_SECRET + foundUser.password;
@@ -26,7 +24,7 @@ class forgotPasswordController{
             const link = `https://localhost:${PORT}/reset-password/${foundUser.id}/${token}`;
             console.log('link', link);
 
-            const isOTPSent = await sendSMS(`
+            const isOTPSent = await sendSMS(phoneNumber, `
                 Check out this link to reset your password: ${link}
             `);
 
