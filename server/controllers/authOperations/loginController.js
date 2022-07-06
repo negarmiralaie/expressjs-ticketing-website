@@ -14,6 +14,7 @@ class loginHandler{
             if (!isPasswordMatch) throw createError.Unauthorized("Phone number or password is incorrect.");
 
             const accessToken = await signAccessToken(foundUser.id)
+            const refreshToken = await signRefreshToken(foundUser.id)
 
             // store token in cookie
             // cookie is automatically sent with every request
@@ -25,7 +26,7 @@ class loginHandler{
             
             const userId = foundUser.id
             console.log('userId', userId);
-            res.status(200).json({ data: {accessToken, userId}, message: "logged in successfully" });
+            res.status(200).json({ data: {accessToken, refreshToken, userId}, message: "logged in successfully" });
     
         } catch (error){
             next(error)

@@ -1,7 +1,7 @@
 const UserModel = require('../../models/User');
 const UserOTPVerification = require("../../models/UserOTPVerification");
 const sendSMS = require('../../helpers/sendSMS');
-const { signAccessToken } = require("../../helpers/jwtHelper");
+const { signAccessToken, signRefreshToken } = require("../../helpers/jwtHelper");
 const createError = require("http-errors");
 
 class registerController{
@@ -36,6 +36,7 @@ class registerController{
             });
 
             const accessToken = await signAccessToken(user._id);
+            const refreshToken = await signRefreshToken(user._id)
 
             console.log('user._id', user._id);
     
@@ -53,7 +54,7 @@ class registerController{
     
                 return res
                     .status(201)
-                    .send({ message: "کد احراز هویت برای شما پیامک شد.", data: { verificationId } });
+                    .send({ message: "کد احراز هویت برای شما پیامک شد.", data: { verificationId, accessToken, refreshToken } });
             } else {
                 throw createError.BadRequest();
             }
