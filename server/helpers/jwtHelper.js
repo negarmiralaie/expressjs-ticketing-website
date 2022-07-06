@@ -44,11 +44,25 @@ module.exports = {
         return new Promise((resolve, reject) => {
             JWT.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
                 if (err) {
+                    console.log('refreshToken', refreshToken);
+                    console.log('process.env.REFRESH_TOKEN_SECRET', process.env.REFRESH_TOKEN_SECRET)
                     console.log(err.message);
+                    // const errorMessage = err.name === 'JsonWebTokenError' ? 'Unauthorized' : err.message;
+                    // return next(createError.Unauthorized(errorMessage));
                     reject(createError.Unauthorized());
                 }
                 resolve(payload.userId);
             });
         });
+
+        // JWT.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, payload) =>{
+        //     if (err){
+        //         console.log('err', err);        req.userId = payload.userId;
+        //         const errorMessage = err.name === 'JsonWebTokenError' ? 'Unauthorized' : err.message;
+        //         return next(createError.Unauthorized(errorMessage));
+        //     }
+        //     req.userId = payload.userId;
+        //     next();
+        // });
     }
 }

@@ -6,7 +6,7 @@ const verifyAccessToken = (req, res, next) => {
     const cookies = req.cookies;
     const accessToken = cookies['access-token'];
     if (!accessToken) return next(createError.Unauthorized());
-    m
+    
     JWT.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, payload) =>{
         if (err){
             console.log('err', err);        req.userId = payload.userId;
