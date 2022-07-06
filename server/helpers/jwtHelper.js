@@ -39,5 +39,16 @@ module.exports = {
                 resolve(token);
             })
         })
+    },
+    verifyRefreshToken: (refreshToken) => {
+        return new Promise((resolve, reject) => {
+            JWT.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
+                if (err) {
+                    console.log(err.message);
+                    reject(createError.Unauthorized());
+                }
+                resolve(payload.userId);
+            });
+        });
     }
 }
