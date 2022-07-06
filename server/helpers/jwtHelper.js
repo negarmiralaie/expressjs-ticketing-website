@@ -12,8 +12,14 @@ module.exports = {
             };
             // We can also put exp and iss in payoad but if we put them in both places we will get an error
             JWT.sign(payload, secret, options, (err, token) => {
-                if (err) reject(createError.InternalServerError(err));
-                resolve(token);
+                if (err) {
+                    const errorMessage = err.name === 'JsonWebTokenError' ? 'Unauthorized' : err.message ;
+                    return next(createError.Unauthorized(errorMessage));
+                    // reject(createError.InternalServerError(err));
+                }
+                req.payload = payload;
+                next();
+                // resolve(token);
             })
         })
     }
