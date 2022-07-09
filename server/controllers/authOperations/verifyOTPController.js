@@ -37,7 +37,7 @@ class VerifyOTPController {
         isVerified: true,
       });
 
-      return res.status(200).json('با موفقیت احراز هویت شدید.') //Authorized
+      return res.status(200).json('با موفقیت احراز هویت شدید.'); //Authorized
     } catch (error) {
       return next(error);
     }
