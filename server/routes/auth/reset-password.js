@@ -12,6 +12,7 @@ router.post(
   verifyAccessToken,
   validateResetPasswordFields,
   validate,
-  resetPasswordController.handleResetPassword);
+  resetPasswordController.handleResetPassword,
+);
 
 module.exports = router;

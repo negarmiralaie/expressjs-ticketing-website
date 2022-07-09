@@ -1,5 +1,4 @@
 const router = require('express').Router();
-// const RegisterController = require('../../controllers/authOperations/RegisterController');
 const RegisterController = require('../../controllers/authOperations/registerController');
 
 const {
