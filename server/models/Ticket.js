@@ -14,15 +14,15 @@ const TicketSchema = new Schema({
         type: String,
         required: [true, "Status is required"]
     },
-    date:{
+    date: {
         type: Date,
         default: Date.now()
     },
-    requestType:{
+    requestType: {
         type: String,
         required: [true, "Request type is required"]
     },
-    user: { 
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'user'

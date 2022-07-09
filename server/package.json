@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node server",
-    "dev": "cross-env NODE_ENV=development nodemon server"
+    "dev": "cross-env NODE_ENV=development nodemon server",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -36,13 +37,16 @@
     "mongodb": "^4.6.0",
     "mongoose": "^6.3.4",
     "morgan": "^1.10.0",
-    "swagger-jsdoc": "^6.2.1",
-    "swagger-ui-express": "^4.4.0",
+    "redis": "^3.0.2",
     "trez-sms-client": "^1.0.4",
     "uuid": "^8.3.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "nodemon": "^2.0.16"
+    "@types/jest": "^28.1.4",
+    "@types/supertest": "^2.0.12",
+    "jest": "^28.1.2",
+    "nodemon": "^2.0.16",
+    "supertest": "^6.2.4"
   }
 }
