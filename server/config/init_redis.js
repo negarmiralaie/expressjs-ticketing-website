@@ -21,7 +21,7 @@ client.on('end', (err) => {
     console.log("Client is disconnected from redis");
 });
 
-process.o('SIGINT', () => {
+process.on('SIGINT', () => {
     client.quit();
 })
 

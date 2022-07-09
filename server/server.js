@@ -4,10 +4,34 @@ const morgan = require('morgan');
 const cookieparser = require('cookie-parser');
 const connectDB = require('./config/db');
 const createError = require("http-errors");
+require('./config/init_redis');
+require('dotenv').config();
 
 // ! //////////////////// END OF IMPORTS //////////////////////
 
 const PORT = process.env.PORT || 5000;
+
+
+// client.connect().then(() => {
+//   client.SET('foo', 'bar')
+//   .then(() => {
+//     client.GET('foo', (err, value) => {
+//       if (err) console.log(err);
+//       console.log(value);
+//     })
+//   })
+// })
+
+// const redisFunc = async () =>{
+//   await client.connect();
+//   await client.SET('foo', 'bar');
+//   await client.GET('foo', (err, value) => {
+//     if (err) console.log(err);
+//     console.log(value);
+//   })
+// }
+
+// redisFunc();
 
 // &MIDDLEWARES
 app.use(express.json());
@@ -21,8 +45,6 @@ if (process.env.NODE_ENV === 'development') {
 // *Imports all of the routes from ./routes/index.js
 const routes = require('./routes/index');
 app.use(routes);
-
-require('dotenv').config();
 
 connectDB();
 

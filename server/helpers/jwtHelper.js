@@ -1,4 +1,5 @@
 const JWT = require('jsonwebtoken');
+const client = require('../config/init_redis');
 const createError = require('http-errors');
 
 module.exports = {
@@ -20,7 +21,7 @@ module.exports = {
             })
         })
     },
-    signRefreshToken: (userId) => {
+    signRefreshToken: async (userId) => {
         return new Promise((resolve, reject) => {
             const payload = { userId };
             const secret = process.env.REFRESH_TOKEN_SECRET;
@@ -36,7 +37,20 @@ module.exports = {
                     // return next(createError.Unauthorized(errorMessage));
                     reject(createError.InternalServerError(err));
                 }
-                resolve(token);
+                // client.connect().then(() => {
+                    client.SET(userId, token, 'EX', 365 * 24 * 60 * 60 , (err, reply) => {
+                        if (err) {
+                            console.log(err.message);
+                            reject(createError.InternalServerError());
+                            return;
+                        }
+                        resolve(token);
+                    })
+                    // .then(() => {
+                        // client.EXPIRE(userId, 3600);
+                        // client.quit();
+                    // })
+                // });
             })
         })
     },
@@ -51,7 +65,19 @@ module.exports = {
                     // return next(createError.Unauthorized(errorMessage));
                     reject(createError.Unauthorized());
                 }
-                resolve(payload.userId);
+                const userId = payload.userId;
+                client.GET(userId, (err, result) => {
+                    if (err) {
+                        console.log(err.message);
+                        reject(createError.InternalServerError());
+                        return;
+                    }
+                    console.log('Stored refresh token:', result);
+
+                    if (refreshToken === result) return resolve(userId);
+                    reject(createError.Unauthorized());
+                })
+                // resolve(payload.userId);
             });
         });
 

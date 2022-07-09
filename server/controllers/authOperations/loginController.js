@@ -21,8 +21,9 @@ class loginHandler {
             const isPasswordMatch = await foundUser.isValidPassword(password);
             if (!isPasswordMatch) throw createError.Unauthorized("Phone number or password is incorrect.");
 
-            const accessToken = await signAccessToken(foundUser.id)
-            const refreshToken = await signRefreshToken(foundUser.id)
+            const accessToken = await signAccessToken(foundUser.id);
+            const refreshToken = await signRefreshToken(foundUser.id);
+            console.log('refreshToken', refreshToken);
 
             // store token in cookie
             // cookie is automatically sent with every request

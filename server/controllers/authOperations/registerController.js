@@ -41,7 +41,7 @@ class registerController{
             console.log('user._id', user._id);
     
             console.log('user.verificationId', user.verificationId)
-    
+     
             // Now send verification SMS
             const isOTPSent = await sendSMS(phoneNumber, `
                 This is your verification code: ${otp}, Notice that it expires in 1 minute!
