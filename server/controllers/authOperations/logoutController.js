@@ -1,21 +1,21 @@
-const createError = require("http-errors");
+const createError = require('http-errors');
 
-class logoutController {
-    handlelogout = async (req, res) => {
-        const cookies = req.cookies;
-        const accessToken = cookies['access-token'];
-        if (!accessToken) return next(createError.Unauthorized());
-        res.clearCookie('access-token', {
-            httpOnly: true,
-            sameSite: 'None',
-            secure: true
-        });
-        res.cookie("access-token", "", {
-            maxAge: 0,
-            httpOnly: true,
-        })
-        res.sendStatus(204);
-    }
+class LogoutController {
+  handlelogout = async (req, res, next) => {
+    const { cookies } = this.req;
+    const accessToken = cookies['access-token'];
+    if (!accessToken) return next(createError.Unauthorized());
+    res.clearCookie('access-token', {
+      httpOnly: true,
+      sameSite: 'None',
+      secure: true,
+    });
+    res.cookie('access-token', '', {
+      maxAge: 0,
+      httpOnly: true,
+    });
+    return res.sendStatus(204);
+  };
 }
 
-module.exports = new logoutController();
+module.exports = new LogoutController();

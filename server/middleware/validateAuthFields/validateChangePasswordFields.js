@@ -1,37 +1,37 @@
 const {
-    check
+  check,
 } = require('express-validator');
 
 exports.validateChangePasswordFields = [
-    check("currentPasword")
+  check('currentPasword')
     .trim()
     .not()
     .isEmpty()
-    .withMessage("Password is required")
+    .withMessage('Password is required')
     .bail()
     .isLength({
-        min: 8
+      min: 8,
     })
-    .withMessage("Password must be at least 8 characters long"),
-    check("newPassword")
+    .withMessage('Password must be at least 8 characters long'),
+  check('newPassword')
     .trim()
     .not()
     .isEmpty()
-    .withMessage("New password is required")
+    .withMessage('New password is required')
     .bail()
     .isLength({
-        min: 8
+      min: 8,
     })
-    .withMessage("Password must be at least 8 characters long"),
-    check("confirmNewPassword")
+    .withMessage('Password must be at least 8 characters long'),
+  check('confirmNewPassword')
     .trim()
     .not()
     .isEmpty()
-    .withMessage("Confirm new password is required")
+    .withMessage('Confirm new password is required')
     .bail()
     .isLength({
-        min: 8
+      min: 8,
     })
-    .withMessage("Password must be at least 8 characters long"),
+    .withMessage('Password must be at least 8 characters long'),
 
 ];
