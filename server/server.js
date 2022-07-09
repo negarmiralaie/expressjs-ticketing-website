@@ -11,31 +11,11 @@ require('dotenv').config();
 
 const PORT = process.env.PORT || 5000;
 
-
-// client.connect().then(() => {
-//   client.SET('foo', 'bar')
-//   .then(() => {
-//     client.GET('foo', (err, value) => {
-//       if (err) console.log(err);
-//       console.log(value);
-//     })
-//   })
-// })
-
-// const redisFunc = async () =>{
-//   await client.connect();
-//   await client.SET('foo', 'bar');
-//   await client.GET('foo', (err, value) => {
-//     if (err) console.log(err);
-//     console.log(value);
-//   })
-// }
-
-// redisFunc();
-
 // &MIDDLEWARES
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+  extended: true
+}));
 app.use(cookieparser());
 
 if (process.env.NODE_ENV === 'development') {
@@ -48,11 +28,10 @@ app.use(routes);
 
 connectDB();
 
-app.use(async(req, res, next)=>{
+app.use(async (req, res, next) => {
   next(createError.NotFound('This route does not exist'));
 });
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
