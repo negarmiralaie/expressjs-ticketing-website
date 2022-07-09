@@ -1,11 +1,11 @@
 const router = require('express').Router();
-const registerController = require('../../controllers/authOperations/registerController');
+const RegisterController = require('../../controllers/authOperations/RegisterController');
 
 const {
-    validateRegisterFields,
-    validate
+  validateRegisterFields,
+  validate,
 } = require('../../middleware/validateAuthFields/validateAuthFields');
 
-router.post('/register', validateRegisterFields, validate, registerController.handleRegister)
+router.post('/register', validateRegisterFields, validate, RegisterController.handleRegister);
 
 module.exports = router;
