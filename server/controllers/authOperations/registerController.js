@@ -44,7 +44,7 @@ class RegisterController {
         password,
         verificationId: userOTPRecord.id,
       });
-      const userId = user._id.toString();
+      const userId = user._id.toString(); // eslint-disable-line no-underscore-dangle
 
       const accessToken = await signAccessToken(userId);
       const refreshToken = await signRefreshToken(userId);

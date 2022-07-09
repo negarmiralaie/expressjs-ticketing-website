@@ -18,7 +18,6 @@ module.exports = {
     'no-undefined': 'off',
     'no-invalid-this': 0,
     'no-console': 0,
-    'no-underscore-dangle': 0,
     'no-trailing-spaces': 0,
     'no-unused-expressions': 0,
     'no-plusplus': 0,
