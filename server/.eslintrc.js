@@ -13,6 +13,9 @@ module.exports = {
   rules: {
     'linebreak-style': 0,
     'no-this-async': 0,
+    camelcase: 0,
+    'non-block-statement-body-position': 0,
+    'no-undefined': 'off',
     'no-invalid-this': 0,
     // 'no-class-methods-use-this': 0,
     'no-console': 0,
