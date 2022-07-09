@@ -9,7 +9,7 @@ class ForgotPasswordController {
   handleForgotPassword = async (req, res, next) => {
     const {
       phoneNumber,
-    } = req.body;
+    } = this.req.body;
 
     try {
       const foundUser = await UserModel.findOne({

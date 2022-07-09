@@ -10,7 +10,7 @@ class LoginHandler {
     const {
       phoneNumber,
       password,
-    } = req.body;
+    } = this.req.body;
 
     try {
       const foundUser = await UserModel.findOne({

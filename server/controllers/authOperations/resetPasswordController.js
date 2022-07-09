@@ -3,11 +3,11 @@ const createError = require('http-errors');
 const UserModel = require('../../models/User');
 
 class ResetPasswordController {
-    handleResetPassword = async (req, res, next) => {
+  handleResetPassword = async (req, res, next) => {
     const {
       password,
       confirmPassword,
-    } = req.body;
+    } = this.req.body;
 
     try {
       const { userId } = req;

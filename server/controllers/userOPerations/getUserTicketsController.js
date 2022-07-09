@@ -7,7 +7,7 @@ class getUserTicketsController {
     handleGetUserTickets = async (req, res) => {
 
         try {
-            const userId = req.userId;
+            const userId = this.req.userId;
             // Now find user with given id
             const foundUser = await UserModel.find({
                 "_id": ObjectId(userId)

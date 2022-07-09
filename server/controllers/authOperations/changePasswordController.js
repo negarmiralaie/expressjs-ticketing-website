@@ -13,7 +13,7 @@ class ChangePasswordController {
     try {
       // In verifyAccessToken middleware we got userId from accessToken and saved it in userId
       // equivalant to: const userId = req.userId
-      const { userId } = req;
+      const { userId } = this.req;
       const foundUser = await UserModel.findById(userId);
       // When we find foundUser using model.find method, we will get an array of objects so we can 
       // get access to desired foundUser through foundUser[0]

@@ -14,7 +14,7 @@ class RegisterController {
       familyName,
       phoneNumber,
       password,
-    } = req.body;
+    } = this.req.body;
 
     // check for duplicate usernames in the db
     const duplicateUser = await UserModel.findOne({

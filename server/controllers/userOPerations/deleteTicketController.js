@@ -8,7 +8,7 @@ class DeleteTicketController {
     try {
       const {
         ticketId,
-      } = req.params;
+      } = this.req.params;
       // const user = await TicketModel.find({"_id": ObjectId(ticketId)})
       const user = await TicketModel.findById(ticketId);
       // First delete ticket from tickets db

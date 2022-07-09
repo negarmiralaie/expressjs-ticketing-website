@@ -5,7 +5,7 @@ const UserModel = require('../../models/User');
 
 class CreateTicketController {
   handleCreateTicket = async (req, res, next) => {
-    const { userId } = req;
+    const { userId } = this.req;
     const {
       title,
       description,
@@ -43,7 +43,7 @@ class CreateTicketController {
         message: 'تیکت با موفقیت ایجاد شد.',
       });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   };
 }

@@ -2,7 +2,7 @@ const createError = require('http-errors');
 
 class LogoutController {
   handlelogout = async (req, res, next) => {
-    const { cookies } = req;
+    const { cookies } = this.req;
     const accessToken = cookies['access-token'];
     if (!accessToken) return next(createError.Unauthorized());
     res.clearCookie('access-token', {

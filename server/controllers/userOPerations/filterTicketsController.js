@@ -7,7 +7,7 @@ class filterUserTicketsController {
     handleFilterUserTickets = async (req, res, next) => {
 
         try {
-            const userId = req.userId;
+            const userId = this.req.userId;
             const desiredTicketStatus = req.query.status;
 
             // Now find user with given id

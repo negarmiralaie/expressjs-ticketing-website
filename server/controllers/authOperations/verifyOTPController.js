@@ -3,12 +3,12 @@ const UserOTPVerification = require('../../models/UserOTPVerification');
 const UserModel = require('../../models/User');
 
 class VerifyOTPController {
-    verifyOTP = async (req, res, next) => {
+  verifyOTP = async (req, res, next) => {
     try {
       const {
         verificationId,
         otp,
-      } = req.body;
+      } = this.req.body;
 
       if (!otp || !verificationId) throw createError.BadRequest();
       const userVerificationRecords = await UserOTPVerification.findOne({
@@ -37,7 +37,7 @@ class VerifyOTPController {
         isVerified: true,
       });
 
-      return res.status(200).json('با موفقیت احراز هویت شدید.'); //Authorized
+      return res.status(200).json('با موفقیت احراز هویت شدید.');
     } catch (error) {
       return next(error);
     }
