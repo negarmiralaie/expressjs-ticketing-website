@@ -44,11 +44,10 @@ class registerController {
                 password,
                 "verificationId": userOTPRecord.id,
             });
+            const userId = user._id.toString();
 
-            const accessToken = await signAccessToken(user._id);
-            const refreshToken = await signRefreshToken(user._id)
-
-            console.log('user._id', user._id);
+            const accessToken = await signAccessToken(userId);
+            const refreshToken = await signRefreshToken(userId);
 
             console.log('user.verificationId', user.verificationId)
 
