@@ -12,7 +12,6 @@ router.use('/api/v1/auth', require('./auth/reset-password'));
 router.use('/api/v1/auth', require('./auth/change-password'));
 router.use('/api/v1/auth', require('./auth/refresh-token'));
 
-
 // Ticket operations
 router.use('/api/v1/user', require('./user/create-ticket'));
 router.use('/api/v1/user', require('./user/delete-ticket'));
