@@ -3,19 +3,19 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 
 const UserSchema = new Schema({
-    name:{ 
+    name: {
         type: String,
         required: true,
         maxlength: 32,
         trim: true
     },
-    familyName:{
+    familyName: {
         type: String,
         required: true,
         maxlength: 32,
-        trim: true    
+        trim: true
     },
-    phoneNumber:{
+    phoneNumber: {
         type: String,
         required: true,
         lowercase: true,
@@ -23,53 +23,53 @@ const UserSchema = new Schema({
         unique: true,
         trim: true
     },
-    password:{
+    password: {
         type: String,
         required: true,
         minlength: 8,
     },
-    isVerified:{
+    isVerified: {
         type: String,
         default: false,
     },
-    date:{
+    date: {
         type: Date,
         default: Date.now()
     },
-    verificationId:{
+    verificationId: {
         type: String
     },
-    roles:[{
+    roles: [{
         type: Array,
         default: "user"
     }],
-    tickets:[{
+    tickets: [{
         type: mongoose.Types.ObjectId,
         ref: "ticket"
     }]
 });
 
-UserSchema.pre("save", async function(next){
-    try{
-        if(this.isModified("password")){
+UserSchema.pre("save", async function (next) {
+    try {
+        if (this.isModified("password")) {
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(this.password, salt);
             this.password = hashedPassword;
             next();
         }
         next();
-    } catch (error){
+    } catch (error) {
         next(error);
     }
 });
 
 UserSchema.methods = {
     isValidPassword: async function (password) {
-        try{
+        try {
             return await bcrypt.compare(password, this.password);
-         } catch(error) {
-             throw error;
-         }
+        } catch (error) {
+            throw error;
+        }
     }
 }
 

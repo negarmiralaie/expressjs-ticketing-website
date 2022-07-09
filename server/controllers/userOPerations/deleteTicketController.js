@@ -14,7 +14,7 @@ class deleteTicketController {
             await TicketModel.deleteOne({_id: ObjectId(ticketId)});
 
             // Then delete ticket from user tickets arr in db
-            const foundUser = await UserModel.find({"_id": ObjectId(user[0].user)});
+            // const foundUser = await UserModel.find({"_id": ObjectId(user[0].user)});
             await UserModel.findOneAndUpdate({_id: ObjectId(user[0].user)},{$pull:{tickets: ObjectId(ticketId)}})
 
             return res.status(200).json({message: "تیکت با موفقیت حذف شد."});
