@@ -39,7 +39,7 @@ module.exports = {
           console.log(err.message);
           reject(createError.InternalServerError(err));
         }
-        client.SET(userId, token, 'EX', 365 * 24 * 60 * 60, (err, reply) => {
+        client.SET(userId, token, 'EX', 365 * 24 * 60 * 60, (err, reply) => { // eslint-disable-line no-unused-vars
           if (err) {
             console.log(err.message);
             reject(createError.InternalServerError());

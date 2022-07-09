@@ -1,4 +1,3 @@
-const createError = require('http-errors');
 const ObjectId = require('mongodb').ObjectID;
 const TicketModel = require('../../models/Ticket');
 const UserModel = require('../../models/User');
@@ -30,9 +29,7 @@ class DeleteTicketController {
         message: 'تیکت با موفقیت حذف شد.',
       });
     } catch (error) {
-      return res.status(500).json({
-        message: 'خطای سرور',
-      });
+      return next(error);
     }
   };
 }

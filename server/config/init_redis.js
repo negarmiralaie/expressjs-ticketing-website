@@ -17,7 +17,7 @@ client.on('error', (error) => {
   console.log(error.message);
 });
 
-client.on('end', (err) => {
+client.on('end', (err) => { // eslint-disable-line no-unused-vars
   console.log('Client is disconnected from redis');
 });
 

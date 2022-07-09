@@ -1,4 +1,3 @@
-const ObjectId = require('mongodb').ObjectID;
 const createError = require('http-errors');
 const UserModel = require('../../models/User');
 
