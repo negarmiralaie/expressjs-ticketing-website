@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const bcrypt = require('bcrypt');
-const createError = require("http-errors");
+const createError = require('http-errors');
 
 const UserSchema = new mongoose.Schema({
   name: {
