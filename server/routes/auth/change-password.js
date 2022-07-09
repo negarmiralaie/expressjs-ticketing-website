@@ -8,8 +8,8 @@ const verifyAccessToken = require('../../middleware/verifyAccessToken');
 
 router.post(
   '/change-password',
-  // validateChangePasswordFields, 
-  // validate , 
+  // validateChangePasswordFields,
+  // validate ,
   verifyAccessToken,
   changePasswordController.handleChangePassword,
 );

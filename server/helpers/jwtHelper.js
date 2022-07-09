@@ -3,7 +3,7 @@ const JWT = require('jsonwebtoken');
 const client = require('../config/init_redis');
 
 module.exports = {
-  signAccessToken: (userId) => { 
+  signAccessToken: (userId) => {
     Promise((resolve, reject) => {
       const payload = {
         userId,
