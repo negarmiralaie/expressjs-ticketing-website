@@ -39,7 +39,7 @@ module.exports = {
           console.log(err.message);
           reject(createError.InternalServerError(err));
         }
-        client.SET(userId, token, 'EX', 365 * 24 * 60 * 60, (err, reply) => { // eslint-disable-line no-unused-vars
+        client.SET(userId, token, 'EX', 365 * 24 * 60 * 60, (err, reply) => { // eslint-disable-line
           if (err) {
             console.log(err.message);
             reject(createError.InternalServerError());
@@ -60,7 +60,7 @@ module.exports = {
           reject(createError.Unauthorized());
         }
         const { userId } = payload.userId;
-        client.GET(userId, (err, result) => {
+        client.GET(userId, (err, result) => { // eslint-disable-line
           if (err) {
             console.log(err.message);
             reject(createError.InternalServerError());
