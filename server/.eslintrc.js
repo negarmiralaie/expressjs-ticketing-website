@@ -17,7 +17,6 @@ module.exports = {
     'non-block-statement-body-position': 0,
     'no-undefined': 'off',
     'no-invalid-this': 0,
-    // 'no-class-methods-use-this': 0,
     'no-console': 0,
     'no-unused-vars': 0,
     'no-underscore-dangle': 0,
