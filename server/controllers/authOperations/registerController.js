@@ -49,7 +49,7 @@ class RegisterController {
       const accessToken = await signAccessToken(userId);
       const refreshToken = await signRefreshToken(userId);
 
-      console.log('user.verificationId', user.verificationId)
+      console.log('user.verificationId', user.verificationId);
 
       // Now send verification SMS
       const isOTPSent = await sendSMS(phoneNumber, `
@@ -74,7 +74,7 @@ class RegisterController {
       }
       throw createError.BadRequest();
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 }
