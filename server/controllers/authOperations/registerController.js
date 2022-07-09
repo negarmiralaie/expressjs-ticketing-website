@@ -47,10 +47,7 @@ class registerController {
             const userId = user._id.toString();
 
             const accessToken = await signAccessToken(userId);
-            // console.log('user._id', user._id);
             const refreshToken = await signRefreshToken(userId);
-
-            // console.log('user._id', user._id.toString());
 
             console.log('user.verificationId', user.verificationId)
 
