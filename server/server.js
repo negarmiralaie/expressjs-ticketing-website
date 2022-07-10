@@ -1,29 +1,29 @@
 const express = require('express');
-const app = express();
 const morgan = require('morgan');
 const cookieparser = require('cookie-parser');
+const createError = require('http-errors');
 const connectDB = require('./config/db');
-const createError = require("http-errors");
+const routes = require('./routes/index');
+// ! //////////////////// END OF IMPORTS //////////////////////
+
+const app = express();
 require('./config/init_redis');
 require('dotenv').config();
-
-// ! //////////////////// END OF IMPORTS //////////////////////
 
 const PORT = process.env.PORT || 5000;
 
 // &MIDDLEWARES
 app.use(express.json());
 app.use(express.urlencoded({
-  extended: true
+  extended: true,
 }));
 app.use(cookieparser());
 
 if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'))
-};
+  app.use(morgan('dev'));
+}
 
 // *Imports all of the routes from ./routes/index.js
-const routes = require('./routes/index');
 app.use(routes);
 
 connectDB();

@@ -1,33 +1,33 @@
 const {
-    validationResult
+  validationResult,
 } = require('express-validator');
 const {
-    validateRegisterFields
+  validateRegisterFields,
 } = require('./validateRegisterFields');
 const {
-    validateLoginFields
+  validateLoginFields,
 } = require('./validateLoginFields');
 const {
-    validateForgotPasswordFields
+  validateForgotPasswordFields,
 } = require('./validateForgotPasswordFields');
 const {
-    validateResetPasswordFields
+  validateResetPasswordFields,
 } = require('./validateResetPasswordFields');
 
 const validate = (req, res, next) => {
-    const error = validationResult(req).array();
-    if (!error.length) return next();
+  const error = validationResult(req).array();
+  if (!error.length) return next();
 
-    res.status(400).json({
-        success: false,
-        error: error[0].msg
-    });
-}
+  return res.status(400).json({
+    success: false,
+    error: error[0].msg,
+  });
+};
 
 module.exports = {
-    validateRegisterFields,
-    validateLoginFields,
-    validateForgotPasswordFields,
-    validateResetPasswordFields,
-    validate
+  validateRegisterFields,
+  validateLoginFields,
+  validateForgotPasswordFields,
+  validateResetPasswordFields,
+  validate,
 };
