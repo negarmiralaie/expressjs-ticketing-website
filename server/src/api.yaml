@@ -1,0 +1,443 @@
+swagger: "2.0"
+info:
+  title: ticketing API
+  description: This documentation is made by NegarM
+  version: 1.0
+  contact: 
+    email: miralaienegar@gmail.com
+  servers:
+    -url: "http:localhost:5000/"
+    description: This is a ticketing website
+
+schemas: [http]
+
+paths:
+
+# CHANGE PASSWORD
+  /api/v1/auth/change-password:
+    post:
+      summary: For changing password.
+      description: User must provide current password, new password and confirm new password.
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: change password
+        schema:
+          type: object
+          properties:
+            currentPassword:
+              type: string
+              required: true
+            newPassword:
+              type: string
+              required: true
+            confirmNewPassword:
+              type: string
+              required: true
+    responses:
+      200:
+        description: Success. Password is changed.
+        schema:
+          type: string
+          exmaple: "Successfully changed password"
+      400:
+        description: Bad Request. New password and confirmNewPassword do not match.
+        schema:
+          type: string
+      401:
+        description: Unauthorized. User's current entered password is not correct.
+
+# FORGOT PASSWORD
+  /api/v1/auth/forgot-password:
+    post: 
+      summary: For sending a link to reset password.
+      description: User enters his phone number to recieve password reset link.
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: forgot password
+        schema:
+          type: object
+          properties:
+            phoneNumber:
+              type: string
+              required: true
+      responses:
+        200: 
+          description: Success. Reset link is sent. token and id are sent back in and object called "data" and a success message is also sent.
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  id:
+                    type: string
+              message:
+                type: string
+                example: "Password reset link has been sent to your phone number."
+        400: 
+          decsription: Bad request. User is not registered or input is invalid.
+          schema:
+            type: object
+            properties:
+              success: 
+                type: boolean
+              error: 
+                type: string
+
+# RESET PASSWORD
+  /api/v1/auth/reset-password:
+    post:
+      summary: For reseting password.
+      description: User must provide a new password.
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: reset password
+        schema:
+          type: object
+          properties:
+            password:
+              type: string
+              required: true
+            confirmPassword:
+              type: string
+              required: true
+        responses:
+          200: 
+            description: Success. Password is reset.
+            schema:
+              type: string
+              exmaple: "Password has been reset!"
+          400: 
+            description: Bad request. Password and confirmPassword are not valud or do not match.
+          401: 
+            description: Unauthorized. User does not exist.
+
+# REGISTER
+  /api/v1/auth/register:
+    post:
+      summary: For registering a new user.
+      description: User must not be already registered or he will get a Conflict error.
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: register
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              required: true
+            familyName:
+              type: string
+              required: true
+            phoneNumber:
+              type: string
+              required: true
+            password:
+              type: string
+              required: true
+      responses:
+        201:
+          description: Success. User is created. verificationId, accessToken and refreshToken are sent back in an object called "data" and a success message is sent as well.
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "OTP sent successfully"
+              data:
+                type: object
+                properties:
+                  verificationId:
+                    type: string
+                  accessToken:
+                    type: string
+                  refreshToken:
+                    type: string
+        400:
+          description: Bad Request. User input is not valid.
+          schema: 
+            type: object
+            properties:
+              success:
+                type: boolean
+              error:
+                type: string
+        409:
+          description: Bad Request. User is already registered.
+        
+# LOGIN
+  /api/v1/auth/login:
+    post:
+      summary: For logging in a user.
+      description: User must be already registered.
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: login
+        schema:
+          type: object
+          properties:
+            phoneNumber:
+              type: string
+              required: true
+            password:
+              type: string
+              required: true
+      responses:
+        200: 
+          description: Success. User is logged in. accessToken, refreshToken and userId is sent in an object called "data".
+          schema:
+            type: object
+            properties:
+              5data:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  refreshToken:
+                    type: string
+                  userId:
+                    type: string
+              message:
+                type: string
+                example: "logged in successfully"
+        400: 
+          description: Bad Request. User input is not valid.
+        401:
+          description: Unauthorized. Phone number or password is incorrect.
+        404: 
+          description: Not Found. User is not registered.
+
+# VERIFY OTP
+  /api/v1/auth/verify-otp:
+    post:
+      summary: For verifying otp.
+      description: Entered otp must be the same as the sent otp.
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: verify otp
+        schema:
+          type: object
+          properties:
+            verificationId:
+              type: string
+              required: true
+            otp:
+              type: string
+              required: true
+      responses:
+        200: 
+          description: Success: User otp is verified.
+          schema:
+            type: string
+            exmaple: "successfully verified"
+        400: 
+          description: Bad Request. User input is not valid or not correct or expired.
+        401: 
+          description: User is either not registered or is already verified.
+
+# REFRESH TOKEN
+  /api/v1/auth/refresh-token:
+    post:
+      summary: For refreshing access token.
+      description: Refresh token must be provided in the body.
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: refresh token
+        schema:
+          type: object
+          properties:
+            refreshToken:
+              type: string
+              required: true
+      responses:
+        200: 
+          description: Success. New accessToken and refresh token are created and sent back in an object called "data"
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  refreshToken:
+                    type: string
+        401: 
+          description: Unauthorized. Refresh token is not verified.
+
+# LOGOUT
+  /api/v1/auth/logout:
+    delete:
+      summary: For logging out user.
+      description: 
+      responses:
+        204: 
+          description: Success. User is logout. Nothing is sent back.
+        400: 
+          description: Unauthorized. User is not logged in.
+        401:
+          description: Unauthorized. Jwt is expired:
+
+# CREATE TICKET
+  /api/v1/user/create-ticket:
+    post:
+      summary: For creating a new ticket.
+      description: User must provide details of a ticket.
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: create ticket
+        schema:
+          type: object
+          properties:
+            title:
+              type: string
+              required: true
+            description:
+              type: string
+              required: true
+            requestType:
+              type: string
+              required: true
+            status:
+              type: sting
+              required: true
+      responses:
+        200: 
+          description: Success. Ticket is created.
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Ticket is successfully created"
+        400: 
+          description: Bad request. Ticket fields are not valid.
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              error:
+                type: string
+                example: "Title must be between 3 and 20 characters"
+        401: 
+          description: Unauthorized. User is not logged in.
+
+# GET USER TICKETS
+  /api/v1/user/get-user-tickets:
+    get:
+      summary: For getting all tickets of a specific user.
+      description: 
+      responses:
+        200: 
+          description: Success. Tickets are fetched.
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  arr:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      title: 
+                        type: string
+                      description:
+                        type: string
+                      status:
+                        type: string
+                      date:
+                        type: string
+                      requestType:
+                        type: string
+                      user:
+                        type: string
+              message:
+                type: string
+                example: "Tickets are successfully fetched"
+        401: 
+          description: Unauthorized. User is not logged in.
+
+# FILTER USER TICKETS
+  /api/v1/user/filter-user-tickets:
+    get:
+      summary: For filtering user tickets.
+      description: 
+      parameters:
+      - in: query
+        name: status
+        type: string
+        enum: ['pending', 'done']
+        required: true
+      responses:
+        200: 
+          description: Success. Tickets are fetched.
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  arr:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      title: 
+                        type: string
+                      description:
+                        type: string
+                      status:
+                        type: string
+                      date:
+                        type: string
+                      requestType:
+                        type: string
+                      user:
+                        type: string
+              message:
+                type: string
+                example: "Tickets are successfully fetched"
+        401: 
+          description: Unauthorized. User is not logged in.
+
+# DELETE TICKET
+  /api/v1/user/delete-ticket/:ticketId:
+    delete:
+      summary: For deleting a user ticket.
+      description: Recieves a ticketId nd deletes it.
+      parameteres:
+      - name: ticketId
+      produces:
+      - application/json
+      responses:
+        200: 
+          description: Success. Ticket is deleted.
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Ticket is successfully deleted."
+        401: 
+          description: Unauthorized. User is not logged in.
