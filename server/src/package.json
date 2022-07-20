@@ -53,5 +53,6 @@
     "jest": "^28.1.2",
     "nodemon": "^2.0.16",
     "supertest": "^6.2.4"
-  }
+  },
+  "eslintIgnore": ["*.test.js", "world.js"]
 }

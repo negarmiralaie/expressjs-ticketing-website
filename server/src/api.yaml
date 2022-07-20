@@ -19,7 +19,7 @@ paths:
       summary: For changing password.
       description: User must provide current password, new password and confirm new password.
       produces:
-      - application/json
+      - text/html
       parameters:
       - in: body
         name: change password
@@ -116,7 +116,7 @@ paths:
               type: string
               exmaple: "Password has been reset!"
           400: 
-            description: Bad request. Password and confirmPassword are not valud or do not match.
+            description: Bad request. Password and confirmPassword are not valid or do not match.
           401: 
             description: Unauthorized. User does not exist.
 

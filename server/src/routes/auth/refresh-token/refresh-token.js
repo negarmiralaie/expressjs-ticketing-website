@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const refreshTokenController = require('../../controllers/authOperations/refreshTokenController');
+const refreshTokenController = require('../../../controllers/authOperations/refreshTokenController');
 
 router.post(
   '/refresh-token',
