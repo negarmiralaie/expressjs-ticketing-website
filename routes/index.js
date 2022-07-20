@@ -18,4 +18,8 @@ router.use('/api/v1/user', require('./user/delete-ticket'));
 router.use('/api/v1/user', require('./user/get-user-tickets'));
 router.use('/api/v1/user', require('./user/filter-user-tickets'));
 
+router.get('/', (req, res) => {
+    res.send('Ticketing website home page');
+});
+
 module.exports = router;
