@@ -18,7 +18,7 @@ class ChangePasswordController {
       // get access to desired foundUser through foundUser[0]
       if (!foundUser) {
         res.status(400);
-        throw createError.NotFound('User with this phone number does not exist.');
+        throw createError.NotFound('User with this credentials does not exist.');
       }
 
       const isCurrentPasswordMatch = await foundUser.isValidPassword(currentPassword);

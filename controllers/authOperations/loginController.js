@@ -8,18 +8,18 @@ const {
 class LoginHandler {
   handleLogin = async (req, res, next) => { // eslint-disable-line class-methods-use-this
     const {
-      phoneNumber,
+      identifier,
       password,
     } = req.body;
 
-    try {
-      const foundUser = await UserModel.findOne({
-        phoneNumber,
-      });
+    const foundUser = await UserModel.findOne({
+      identifier,
+    });
 
+    try {
       if (foundUser === null) {
         res.status(400);
-        throw createError.NotFound(`User with phone number ${phoneNumber} does not exist.`);
+        throw createError.NotFound('This user does not exist.');
       }
 
       const isPasswordMatch = await foundUser.isValidPassword(password);
