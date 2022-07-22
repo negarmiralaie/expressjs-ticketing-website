@@ -1,5 +1,6 @@
 const {
   check,
+  oneOf,
 } = require('express-validator');
 
 exports.validateRegisterFields = [
@@ -26,19 +27,20 @@ exports.validateRegisterFields = [
       max: 20,
     })
     .withMessage('Name must be between 3 and 20 characters'),
-  check('phoneNumber')
-    .trim()
-    .isLength(11)
-    .bail()
-    .isMobilePhone(),
-  check('email')
-    .trim()
-    .not()
-    .isEmpty()
-    .bail()
-    .escape()
-    .isEmail()
-    .withMessage('Email is invalid'),
+  oneOf([
+    check('identifier')
+      .trim()
+      .isLength(11)
+      .bail()
+      .isMobilePhone(),
+    check('identifier')
+      .trim()
+      .notEmpty()
+      .bail()
+      .escape()
+      .isEmail()
+      .withMessage('Email is invalid'),
+  ]),
   check('password')
     .trim()
     .not()

@@ -1,19 +1,21 @@
 const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
 const UserModel = require('../../models/User');
-const sendSMS = require('../../helpers/sendSMS');
+const sendEmailOrSms = require('../../helpers/sendEmailOrSms');
 
 const PORT = process.env.PORT || 5000;
 
 class ForgotPasswordController {
   handleForgotPassword = async (req, res, next) => { // eslint-disable-line class-methods-use-this
     const {
-      phoneNumber,
+      identifier,
     } = req.body;
+
+    const method = identifier.includes('@') ? 'email' : 'phone';
 
     try {
       const foundUser = await UserModel.findOne({
-        phoneNumber,
+        identifier,
       });
 
       if (!foundUser) {
@@ -23,7 +25,7 @@ class ForgotPasswordController {
 
       const secret = process.env.JWT_SECRET + foundUser.password;
       const payload = {
-        email: foundUser.email,
+        identifier: foundUser.identifier,
         id: foundUser.id,
       };
 
@@ -35,9 +37,7 @@ class ForgotPasswordController {
       const link = `https://localhost:${PORT}/reset-password/${foundUser.id}/${token}`;
       console.log('link', link);
 
-      await sendSMS(phoneNumber, `
-         Check out this link to reset your password: ${link}
-      `);
+      await sendEmailOrSms(method, identifier, `Check out this link to reset your password: ${link}`);
 
       const { id } = foundUser;
       return res.status(200).json({

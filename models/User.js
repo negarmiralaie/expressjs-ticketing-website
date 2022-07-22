@@ -16,20 +16,29 @@ const UserSchema = new mongoose.Schema({
     maxlength: 32,
     trim: true,
   },
-  phoneNumber: {
+  // phoneNumber: {
+  //   type: String,
+  //   required: true,
+  //   lowercase: true,
+  //   length: 11,
+  //   unique: true,
+  //   trim: true,
+  // },
+  // email: {
+  //   type: String,
+  //   required: true,
+  //   lowercase: true,
+  //   unique: true,
+  //   trim: true,
+  // },
+  method: {
     type: String,
     required: true,
-    lowercase: true,
-    length: 11,
-    unique: true,
-    trim: true,
+    enum: ['phoneNumber', 'email'],
   },
-  email: {
+  identifier: {
     type: String,
     required: true,
-    lowercase: true,
-    unique: true,
-    trim: true,
   },
   password: {
     type: String,
