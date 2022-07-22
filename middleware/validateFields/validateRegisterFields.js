@@ -31,6 +31,14 @@ exports.validateRegisterFields = [
     .isLength(11)
     .bail()
     .isMobilePhone(),
+  check('email')
+    .trim()
+    .not()
+    .isEmpty()
+    .bail()
+    .escape()
+    .isEmail()
+    .withMessage('Email is invalid'),
   check('password')
     .trim()
     .not()

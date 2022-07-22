@@ -124,7 +124,13 @@ paths:
   /api/v1/auth/register:
     post:
       summary: For registering a new user.
-      description: User must not be already registered or he will get a Conflict error.
+      description: User must not be already registered or he will get a Conflict error. User chooses by which method (sms/email) he wants to be verified (using otp). Chosen method will be sent as a query parameter.
+      parameters:
+      - in: query
+        name: method
+        type: string
+        enum: ['sms', 'email']
+        required: true
       produces:
       - application/json
       parameters:
@@ -140,6 +146,9 @@ paths:
               type: string
               required: true
             phoneNumber:
+              type: string
+              required: true
+            email:
               type: string
               required: true
             password:

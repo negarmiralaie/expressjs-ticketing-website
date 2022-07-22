@@ -2,6 +2,7 @@ const createError = require('http-errors');
 const UserModel = require('../../models/User');
 const UserOTPVerification = require('../../models/UserOTPVerification');
 const sendSMS = require('../../helpers/sendSMS');
+const sendEmail = require('../../helpers/sendEmail');
 const {
   signAccessToken,
   signRefreshToken,
@@ -13,8 +14,11 @@ class RegisterController {
       name,
       familyName,
       phoneNumber,
+      email,
       password,
     } = req.body;
+
+    const { method } = req.query;
 
     // check for duplicate usernames in the db
     const duplicateUser = await UserModel.findOne({
@@ -44,6 +48,7 @@ class RegisterController {
         name,
         familyName,
         phoneNumber,
+        email,
         password,
         verificationId: userOTPRecord.id,
       });
@@ -52,10 +57,15 @@ class RegisterController {
       const refreshToken = await signRefreshToken(userId);
       console.log('user.verificationId', user.verificationId);
 
-      // Now send verification SMS
-      const isOTPSent = await sendSMS(phoneNumber, `
+      // Now send verification SMS/email
+      let isOTPSent = false;
+      if (method === 'sms') {
+        isOTPSent = await sendSMS(phoneNumber, `
           This is your verification code: ${otp}, Notice that it expires in 1 minute!
-            `);
+        `);
+      } else {
+        isOTPSent = await sendEmail('miralaienegar@gmail.com', 'Verify your account', `This is your verification code: ${otp}`);
+      }
 
       const verificationId = userOTPRecord.id;
       if (isOTPSent) {
