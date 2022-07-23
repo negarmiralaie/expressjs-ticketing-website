@@ -13,6 +13,8 @@ const verifyAccessToken = (req, res, next) => { // eslint-disable-line
       return next(createError.Unauthorized(errorMessage));
     }
     req.userId = payload.userId;
+    req.role = payload.role;
+    console.log('req.role', req.role);
     next();
   });
 };

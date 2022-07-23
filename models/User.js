@@ -16,21 +16,6 @@ const UserSchema = new mongoose.Schema({
     maxlength: 32,
     trim: true,
   },
-  // phoneNumber: {
-  //   type: String,
-  //   required: true,
-  //   lowercase: true,
-  //   length: 11,
-  //   unique: true,
-  //   trim: true,
-  // },
-  // email: {
-  //   type: String,
-  //   required: true,
-  //   lowercase: true,
-  //   unique: true,
-  //   trim: true,
-  // },
   method: {
     type: String,
     required: true,
@@ -64,6 +49,11 @@ const UserSchema = new mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: 'ticket',
   }],
+  role: {
+    type: String,
+    default: 'user',
+    enum: ['user', 'admin'],
+  },
 });
 
 UserSchema.pre('save', async function hashPassword(next) {

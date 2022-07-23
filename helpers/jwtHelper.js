@@ -5,8 +5,10 @@ const client = require('../config/init_redis');
 module.exports = {
   signAccessToken: (userId) => { // eslint-disable-line
     return new Promise((resolve, reject) => {
+      const role = 'user';
       const payload = {
         userId,
+        role,
       };
       console.log('payload', payload);
       const secret = process.env.ACCESS_TOKEN_SECRET;
