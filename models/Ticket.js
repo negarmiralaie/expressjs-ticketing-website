@@ -26,6 +26,9 @@ const TicketSchema = new mongoose.Schema({
     required: true,
     ref: 'user',
   },
+  answer: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model('ticket', TicketSchema);

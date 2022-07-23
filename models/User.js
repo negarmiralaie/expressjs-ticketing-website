@@ -41,10 +41,6 @@ const UserSchema = new mongoose.Schema({
   verificationId: {
     type: String,
   },
-  roles: [{
-    type: Array,
-    default: 'user',
-  }],
   tickets: [{
     type: mongoose.Types.ObjectId,
     ref: 'ticket',

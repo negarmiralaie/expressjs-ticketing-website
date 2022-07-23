@@ -21,7 +21,7 @@ class PostTicketAnswerController {
       }
 
       // Now attach ticket to its user
-      await TicketModel.updateMany({ ticketId }, answer, { status: 'answered' });
+      await TicketModel.updateOne({ ticketId }, { $set: { answer, status: 'answered' } });
       await foundTicket.save;
 
       return res.status(200).json({

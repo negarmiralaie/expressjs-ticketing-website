@@ -33,6 +33,7 @@ class RegisterController {
       console.log('verificationId', verificationId);
 
       // Now create and store the user in the db
+      const role = 'user';
       const user = await UserModel.create({
         name,
         familyName,
@@ -40,6 +41,7 @@ class RegisterController {
         identifier,
         password,
         verificationId,
+        role,
       });
 
       const userId = user._id.toString(); // eslint-disable-line no-underscore-dangle
