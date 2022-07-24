@@ -30,8 +30,6 @@ class CreateTicketController {
         user: foundUser[0],
       });
 
-      console.log(ticket);
-
       // Now attach ticket to its user
       await UserModel.updateMany({
         userId,
