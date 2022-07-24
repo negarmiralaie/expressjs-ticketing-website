@@ -12,6 +12,16 @@ class TicketService {
     }
   };
 
+  addAnswerToTicket = async (ticketId, answer) => {
+    try {
+      const foundTicket = await this.getTicket(ticketId);
+      await TicketModel.updateOne({ ticketId }, { $set: { answer, status: 'answered' } });
+      return await foundTicket.save;
+    } catch (error) {
+      throw createError.InternalServerError(error);
+    }
+  };
+
   deleteTicket = async (ticketId, userId) => { // eslint-disable-line class-methods-use-this
     try {
       // Delete ticket from tickets db

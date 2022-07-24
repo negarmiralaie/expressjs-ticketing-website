@@ -53,6 +53,15 @@ class UserService {
     }
   };
 
+  getUserRole = async (userId) => {
+    try {
+      const foundUser = await this.getUser(userId);
+      return foundUser[0].role;
+    } catch (error) {
+      throw createError.InternalServerError(error);
+    }
+  };
+
 //   getUserByTicketId = async (ticketId) => { // eslint-disable-line class-methods-use-this
 //     try {
 //       return await TicketModel.findById(ticketId);

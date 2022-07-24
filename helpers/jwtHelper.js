@@ -1,11 +1,12 @@
 const createError = require('http-errors');
 const JWT = require('jsonwebtoken');
 const client = require('../config/init_redis');
+const UserService = require('../services/user.service');
 
 module.exports = {
-  signAccessToken: (userId) => { // eslint-disable-line
+  signAccessToken: async (userId) => { // eslint-disable-line
+    const role = await UserService.getUserRole(userId);
     return new Promise((resolve, reject) => {
-      const role = 'user';
       const payload = {
         userId,
         role,
