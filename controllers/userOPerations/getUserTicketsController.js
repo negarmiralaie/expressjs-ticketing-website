@@ -1,34 +1,19 @@
 const createError = require('http-errors');
-const ObjectId = require('mongodb').ObjectID;
-const TicketModel = require('../../models/Ticket');
-const UserModel = require('../../models/User');
+const UserService = require('../../services/user.service');
 
 class GetUserTicketsController {
   handleGetUserTickets = async (req, res, next) => { // eslint-disable-line
     try {
       const { userId } = req;
-      // Now find user with given id
-      const foundUser = await UserModel.find({
-        _id: ObjectId(userId),
-      });
 
+      // Now find user with given id
+      const foundUser = await UserService.getUser(userId);
       if (!foundUser) {
         res.status(401);
         throw createError.Unauthorized('کاربر موجود نمیباشد');
       }
-      // Use toString for converting "new ObjectId to plain id"
-      const foundUserTicketIds = await foundUser[0].tickets
-        .map((ticketObjectId) => ticketObjectId.toString());
 
-      const arr = [];
-
-      for (let i = 0; i < foundUserTicketIds.length; i++) {
-        const id = foundUserTicketIds[i];
-        const ticket = await TicketModel.find({ // eslint-disable-line
-          _id: ObjectId(id),
-        });
-        arr.push(ticket);
-      }
+      const arr = await UserService.getUserTickets(userId);
 
       return res.status(200).json({
         data: {

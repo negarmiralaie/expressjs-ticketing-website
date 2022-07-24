@@ -1,7 +1,7 @@
 const ObjectId = require('mongodb').ObjectID;
 const createError = require('http-errors');
-const TicketModel = require('../models/Ticket');
 const UserModel = require('../models/User');
+const TicketService = require('./ticket.service');
 
 class UserService {
   getUser = async (userId) => {
@@ -12,33 +12,42 @@ class UserService {
     }
   };
 
-  filterUserTickets = async (userId, desiredTicketStatus) => {
+  getUserTickets = async (userId) => {
     try {
       const foundUser = await this.getUser(userId);
-
       // Use toString for converting "new ObjectId to plain id"
       const foundUserTicketIds = await foundUser[0].tickets
         .map((ticketObjectId) => ticketObjectId.toString());
 
-      const ticketsArr = [];
+      const userTicketsArr = [];
 
       for (let i = 0; i < foundUserTicketIds.length; i++) {
-        const id = foundUserTicketIds[i];
-        const ticket = await TicketModel.find({ // eslint-disable-line
-          _id: ObjectId(id),
-        });
-        ticketsArr.push(ticket);
+        const ticketId = foundUserTicketIds[i];
+        const ticket = await TicketService.getTicket(ticketId);
+        if (ticket) userTicketsArr.push(ticket);
       }
+
+      return userTicketsArr;
+    } catch (error) {
+      throw createError.InternalServerError(error);
+    }
+  };
+
+  filterUserTickets = async (userId, desiredTicketStatus) => {
+    try {
+      const ticketsArr = await this.getUserTickets(userId);
       // now filter ticketsArr to get tickets which match...
-      const arr = [];
+      const filteredTicketsArr = [];
 
       for (let i = 0; i < ticketsArr.length; i++) {
         if (ticketsArr[i][0]) {
-          if (ticketsArr[i][0].status === desiredTicketStatus) arr.push(ticketsArr[i][0]);
+          if (ticketsArr[i][0].status === desiredTicketStatus) {
+            filteredTicketsArr.push(ticketsArr[i][0]);
+          }
         }
       }
 
-      return arr;
+      return filteredTicketsArr;
     } catch (error) {
       throw createError.InternalServerError(error);
     }
