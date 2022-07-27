@@ -7,17 +7,14 @@ class GetUserTicketsController {
       const { userId } = req;
 
       // Now find user with given id
-      const foundUser = await UserService.getUser(userId);
-      if (!foundUser) {
-        res.status(401);
-        throw createError.Unauthorized('کاربر موجود نمیباشد');
-      }
+      const foundUser = await UserService.getUserById(userId);
+      if (!foundUser) throw createError(404, 'User does not exist');
 
-      const arr = await UserService.getUserTickets(userId);
+      const userTickets = await UserService.getUserTickets(userId);
 
       return res.status(200).json({
         data: {
-          arr,
+          userTickets,
         },
         message: 'Tickets are successfully fetched',
       });

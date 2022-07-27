@@ -4,9 +4,17 @@ const UserModel = require('../models/User');
 const TicketService = require('./ticket.service');
 
 class UserService {
-  getUser = async (userId) => {
+  getUserById = async (userId) => { // eslint-disable-line class-methods-use-this
     try {
-      return await UserModel.find({ _id: ObjectId(userId) });
+      return await UserModel.findOne({ _id: ObjectId(userId) });
+    } catch (error) {
+      throw createError.InternalServerError(error);
+    }
+  };
+
+  getUserByIdentifier = async (identifier) => { // eslint-disable-line class-methods-use-this
+    try {
+      return await UserModel.findOne({ identifier });
     } catch (error) {
       throw createError.InternalServerError(error);
     }
@@ -23,7 +31,7 @@ class UserService {
 
       for (let i = 0; i < foundUserTicketIds.length; i++) {
         const ticketId = foundUserTicketIds[i];
-        const ticket = await TicketService.getTicket(ticketId);
+        const ticket = await TicketService.getTicket(ticketId); // eslint-disable-line
         if (ticket) userTicketsArr.push(ticket);
       }
 
@@ -55,54 +63,20 @@ class UserService {
 
   getUserRole = async (userId) => {
     try {
-      const foundUser = await this.getUser(userId);
-      return foundUser[0].role;
+      const foundUser = await this.getUserById(userId);
+      return foundUser.role;
     } catch (error) {
       throw createError.InternalServerError(error);
     }
   };
 
-//   getUserByTicketId = async (ticketId) => { // eslint-disable-line class-methods-use-this
-//     try {
-//       return await TicketModel.findById(ticketId);
-//     } catch (error) {
-//       throw createError.InternalServerError(error);
-//     }
-//   };
-
-  // createTicket = async (ticket) => {
-  //   try {
-  //     console.log('ticket', typeof ticket);
-  //     return await TicketModel.create(ticket);
-  //   } catch (error) {
-  //     throw createError.InternalServerError(error);
-  //   }
-  // };
-
-    // updateTicket(ticket) {
-    //     return this.$http.put('/api/tickets/' + ticket._id, ticket)
-    //         .then(response => response.data);
-    // }
-
-//   deleteTicket = async (ticketId, userId) => { // eslint-disable-line class-methods-use-this
-//     try {
-//       // Delete ticket from tickets db
-//       await TicketModel.deleteOne({
-//         _id: ObjectId(ticketId),
-//       });
-
-//       // Delete ticket from user tickets arr in db
-//       await UserModel.findOneAndUpdate({
-//         _id: ObjectId(userId),
-//       }, {
-//         $pull: {
-//           tickets: ObjectId(ticketId),
-//         },
-//       });
-//     } catch (error) {
-//       throw createError.InternalServerError(error);
-//     }
-//   };
+  updateUser = async (userId, data) => { // eslint-disable-line class-methods-use-this
+    try {
+      return await UserModel.updateMany({ userId }, { $set: data });
+    } catch (error) {
+      throw createError.InternalServerError(error);
+    }
+  };
 }
 
 module.exports = new UserService();

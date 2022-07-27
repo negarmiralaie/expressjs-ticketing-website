@@ -7,10 +7,7 @@ class DeleteTicketController {
       const { ticketId } = req.params;
 
       const ticket = await TicketService.getTicket(ticketId);
-      if (!ticket) {
-        res.status(401);
-        throw createError.BadRequest('Ticket does not exist');
-      }
+      if (!ticket) throw createError(404, 'Ticket does not exist');
 
       // Delete ticket from tickets db and delete ticket from user tickets arr in db
       await TicketService.deleteTicket(ticketId, ticket.user);

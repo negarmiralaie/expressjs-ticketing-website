@@ -355,7 +355,7 @@ paths:
               data:
                 type: object
                 properties:
-                  arr:
+                  userTickets:
                     type: object
                     properties:
                       _id:
@@ -398,7 +398,7 @@ paths:
               data:
                 type: object
                 properties:
-                  arr:
+                  filteredUserTickets:
                     type: object
                     properties:
                       _id:

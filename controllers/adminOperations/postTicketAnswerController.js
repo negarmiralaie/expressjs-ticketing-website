@@ -9,10 +9,7 @@ class PostTicketAnswerController {
     try {
       // Now find ticket with given id
       const foundTicket = await TicketService.getTicket(ticketId);
-      if (!foundTicket) {
-        res.status(400);
-        throw createError.BadRequest('This ticket does not exist');
-      }
+      if (!foundTicket) throw createError(404, 'This ticket does not exist');
 
       // Now attach ticket to its user
       await TicketService.addAnswerToTicket(ticketId, answer);

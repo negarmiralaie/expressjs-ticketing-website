@@ -8,17 +8,14 @@ class FilterUserTicketsController {
       const desiredTicketStatus = req.query.status;
 
       // Now find user with given id
-      const foundUser = await UserService.getUser(userId);
-      if (!foundUser) {
-        res.status(401);
-        throw createError.BadRequest('Unauthorized');
-      }
+      const foundUser = await UserService.getUserById(userId);
+      if (!foundUser) throw createError(401, 'Unauthorized');
 
-      const arr = await UserService.filterUserTickets(userId, desiredTicketStatus);
+      const filteredUserTickets = await UserService.filterUserTickets(userId, desiredTicketStatus);
 
       return res.status(200).json({
         data: {
-          arr,
+          filteredUserTickets,
         },
         message: 'Tickets are successfully fetched',
       });

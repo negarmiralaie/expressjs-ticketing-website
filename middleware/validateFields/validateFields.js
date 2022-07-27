@@ -20,6 +20,10 @@ const {
   validateCreateTickerFields,
 } = require('./validateCreateTickerFields');
 
+const {
+  validateVerifyOTPFields,
+} = require('./validateVerifyOTPFields');
+
 const validate = (req, res, next) => {
   const error = validationResult(req).array();
   if (!error.length) return next();
@@ -37,5 +41,6 @@ module.exports = {
   validateResetPasswordFields,
   validateCreateTickerFields,
   validateChangePasswordFields,
+  validateVerifyOTPFields,
   validate,
 };

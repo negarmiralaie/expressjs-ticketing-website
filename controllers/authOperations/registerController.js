@@ -1,5 +1,6 @@
 const createError = require('http-errors');
 const UserModel = require('../../models/User');
+const UserService = require('../../services/user.service');
 const sendOTP = require('../../helpers/sendOTP');
 const {
   signAccessToken,
@@ -9,19 +10,13 @@ const {
 class RegisterController {
   async handleRegister(req, res, next) { // eslint-disable-line
     const {
-      name,
-      familyName,
-      identifier,
-      password,
+      name, familyName, identifier, password,
     } = req.body;
 
     const method = identifier.indexOf('@') > -1 ? 'email' : 'phoneNumber';
 
     // check for duplicate usernames in the db
-    const duplicateUser = await UserModel.findOne({
-      identifier,
-    }).exec();
-
+    const duplicateUser = await UserService.getUserByIdentifier(identifier);
     if (duplicateUser) {
       res.status(409);
       throw createError.Conflict();

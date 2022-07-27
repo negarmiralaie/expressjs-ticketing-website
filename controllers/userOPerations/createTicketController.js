@@ -1,33 +1,23 @@
 const createError = require('http-errors');
-const ObjectId = require('mongodb').ObjectID;
 const TicketModel = require('../../models/Ticket');
 const UserModel = require('../../models/User');
+const UserService = require('../../services/user.service');
 
 class CreateTicketController {
   handleCreateTicket = async (req, res, next) => { // eslint-disable-line class-methods-use-this
     const { userId } = req;
-    const {
-      title,
-      description,
-      requestType,
-    } = req.body;
+    const { title, description, requestType } = req.body;
 
     try {
-      // Now find user with given id
-      const foundUser = await UserModel.find({
-        _id: ObjectId(userId),
-      });
-      if (!foundUser) {
-        res.status(400);
-        throw createError.BadRequest('Unauthorized');
-      }
+      const foundUser = await UserService.getUserById(userId);
+      if (!foundUser) throw createError(404, 'User does not exist');
 
       const ticket = await TicketModel.create({
         title,
         description,
         requestType,
         status: 'pending',
-        user: foundUser[0],
+        user: foundUser,
       });
 
       // Now attach ticket to its user
