@@ -8,10 +8,7 @@ class ForgotPasswordController {
 
     try {
       const foundUser = await UserService.getUserByIdentifier(identifier);
-      if (!foundUser) {
-        res.status(400);
-        throw createError.BadRequest('Unauthorized.');
-      }
+      if (!foundUser) throw createError(400);
 
       const { id, password } = foundUser;
       const token = await sendResetPasswordLink(identifier, id, password);

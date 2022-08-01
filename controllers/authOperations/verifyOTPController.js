@@ -9,6 +9,9 @@ class VerifyOTPController {
       const userVerificationRecords = await OtpService.getOtpRecordById(verificationId);
       if (userVerificationRecords === null) return createError(404);
 
+      const isUserVerified = await UserService.getUserVerificationState(verificationId);
+      if (isUserVerified) throw createError(400, 'User is already verified.');
+
       // check if otp is correct:
       console.log('otp', otp);
       console.log('userVerificationRecords.otp', userVerificationRecords.otp);

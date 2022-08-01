@@ -89,6 +89,8 @@ paths:
                 type: boolean
               error: 
                 type: string
+        404:
+          description: User is not found.
 
 # RESET PASSWORD
   /api/v1/auth/reset-password:
@@ -151,9 +153,6 @@ paths:
           schema:
             type: object
             properties:
-              message:
-                type: string
-                example: "OTP sent successfully"
               data:
                 type: object
                 properties:
@@ -163,6 +162,9 @@ paths:
                     type: string
                   refreshToken:
                     type: string
+              message:
+                type: string
+                example: "OTP sent successfully"
         400:
           description: Bad Request. User input is not valid.
           schema: 
@@ -245,9 +247,11 @@ paths:
             type: string
             exmaple: "successfully verified"
         400: 
-          description: Bad Request. User input is not valid or not correct or expired.
+          description: Bad Request. User input is not valid or not correct or expired or user is already verified.
         401: 
           description: User is either not registered or is already verified.
+        404:
+        description: User verification records are not found.
 
 # REFRESH TOKEN
   /api/v1/auth/refresh-token:
@@ -340,6 +344,8 @@ paths:
                 example: "Title must be between 3 and 20 characters"
         401: 
           description: Unauthorized. User is not logged in.
+        404:
+          description: User does not exist
 
 # GET USER TICKETS
   /api/v1/user/get-user-tickets:
@@ -377,6 +383,8 @@ paths:
                 example: "Tickets are successfully fetched"
         401: 
           description: Unauthorized. User is not logged in.
+        404:
+          description: User does not exist.
 
 # FILTER USER TICKETS
   /api/v1/user/filter-user-tickets:
@@ -441,3 +449,5 @@ paths:
                 example: "Ticket is successfully deleted."
         401: 
           description: Unauthorized. User is not logged in.
+        404:
+          description: Ticket does not exist.

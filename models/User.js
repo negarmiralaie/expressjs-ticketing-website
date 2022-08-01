@@ -31,7 +31,7 @@ const UserSchema = new mongoose.Schema({
     minlength: 8,
   },
   isVerified: {
-    type: String,
+    type: Boolean,
     default: false,
   },
   date: {

@@ -20,13 +20,21 @@ class UserService {
     }
   };
 
+  getUserByVerificationId = async (verificationId) => { // eslint-disable-line
+    try {
+      return await UserModel.findOne({ verificationId });
+    } catch (error) {
+      throw createError.InternalServerError(error);
+    }
+  };
+
   getUserTickets = async (userId) => {
     try {
-      const foundUser = await this.getUser(userId);
+      const foundUser = await this.getUserById(userId);
+      if (foundUser.tickets.length === 0) return [];
       // Use toString for converting "new ObjectId to plain id"
       const foundUserTicketIds = await foundUser[0].tickets
         .map((ticketObjectId) => ticketObjectId.toString());
-
       const userTicketsArr = [];
 
       for (let i = 0; i < foundUserTicketIds.length; i++) {
@@ -44,6 +52,7 @@ class UserService {
   filterUserTickets = async (userId, desiredTicketStatus) => {
     try {
       const ticketsArr = await this.getUserTickets(userId);
+      if (ticketsArr.length === 0) return [];
       // now filter ticketsArr to get tickets which match...
       const filteredTicketsArr = [];
 
@@ -65,6 +74,15 @@ class UserService {
     try {
       const foundUser = await this.getUserById(userId);
       return foundUser.role;
+    } catch (error) {
+      throw createError.InternalServerError(error);
+    }
+  };
+
+  getUserVerificationState = async (verificationId) => {
+    try {
+      const foundUser = await this.getUserByVerificationId(verificationId);
+      return foundUser.isVerified;
     } catch (error) {
       throw createError.InternalServerError(error);
     }

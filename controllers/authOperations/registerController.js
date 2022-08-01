@@ -2,6 +2,7 @@ const createError = require('http-errors');
 const UserModel = require('../../models/User');
 const UserService = require('../../services/user.service');
 const sendOTP = require('../../helpers/sendOTP');
+const getIdentifierMethod = require('../../helpers/getIdentifierMethod');
 const {
   signAccessToken,
   signRefreshToken,
@@ -13,14 +14,11 @@ class RegisterController {
       name, familyName, identifier, password,
     } = req.body;
 
-    const method = identifier.indexOf('@') > -1 ? 'email' : 'phoneNumber';
+    const method = getIdentifierMethod(identifier);
 
     // check for duplicate usernames in the db
     const duplicateUser = await UserService.getUserByIdentifier(identifier);
-    if (duplicateUser) {
-      res.status(409);
-      throw createError.Conflict();
-    }
+    if (duplicateUser) return createError(409, 'User already exists');
 
     // If everything was okay and user wasnt already in the db
     try {
@@ -47,12 +45,12 @@ class RegisterController {
         return res
           .status(201)
           .send({
-            message: 'OTP sent successfully',
             data: {
               verificationId,
               accessToken,
               refreshToken,
             },
+            message: 'OTP sent successfully',
           });
       }
     } catch (error) {

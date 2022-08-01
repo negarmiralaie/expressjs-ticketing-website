@@ -13,7 +13,7 @@ class ChangePasswordController {
       // When we find foundUser using model.find method, we will get an array of objects so we can
       const isCurrentPasswordMatch = await foundUser.isValidPassword(currentPassword);
 
-      if (!isCurrentPasswordMatch) throw createError(400, 'incorrect credentials');
+      if (!isCurrentPasswordMatch) throw createError(401, 'incorrect credentials');
       if (newPassword !== confirmNewPassword) throw createError(400, 'Password mismatch');
 
       const hashedPassword = await hashPassword(newPassword);

@@ -25,10 +25,11 @@ class OtpService {
   checkOtpExpiration = async (otpRecordId) => {
     try {
       const otpRecord = await this.getOtpRecordById(otpRecordId);
-      if (otpRecord.expiredAt < Date.now()) {
+      const isOtpExpired = otpRecord.expiredAt < Date.now();
+      if (isOtpExpired) {
         // otp is expired so we must delete it now
         this.deleteOtpRecord(otpRecordId);
-        return true;
+        return isOtpExpired;
       }
       return false;
     } catch (error) {

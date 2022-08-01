@@ -1,5 +1,6 @@
 const createError = require('http-errors');
 const UserService = require('../../services/user.service');
+const OtpService = require('../../services/otp.service');
 const {
   signAccessToken,
   signRefreshToken,
@@ -12,12 +13,16 @@ class LoginHandler {
 
     try {
       if (foundUser === null) throw createError(404, 'This user does not exist.');
+      const isUserVerified = foundUser.isVerified;
+      if (!isUserVerified) {
+        // If user is not verified, check his verification records,if is expired, it will be deleted
+        const isOtpExpired = await OtpService.checkOtpExpiration(foundUser.verificationId);
+        if (isOtpExpired) throw createError(401, 'User is not verified.');
+        throw createError(401, 'Verification is not completed.');
+      }
 
       const isPasswordMatch = await foundUser.isValidPassword(password);
-      if (!isPasswordMatch) {
-        res.status(400);
-        throw createError.Unauthorized('Phone number or password is incorrect.');
-      }
+      if (!isPasswordMatch) throw createError(400, 'Phone number or password is incorrect.');
 
       const userId = foundUser.id;
       const accessToken = await signAccessToken(userId);

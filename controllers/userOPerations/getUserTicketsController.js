@@ -13,10 +13,8 @@ class GetUserTicketsController {
       const userTickets = await UserService.getUserTickets(userId);
 
       return res.status(200).json({
-        data: {
-          userTickets,
-        },
-        message: 'Tickets are successfully fetched',
+        data: { userTickets },
+        message: userTickets.length === 0 ? 'No tickets found' : 'Tickets are successfully fetched',
       });
     } catch (error) {
       return next(error);
