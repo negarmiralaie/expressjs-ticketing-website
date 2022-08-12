@@ -1,35 +1,16 @@
 const createError = require('http-errors');
-const ObjectId = require('mongodb').ObjectID;
-const TicketModel = require('../../models/Ticket');
-const UserModel = require('../../models/User');
+const TicketService = require('../../services/ticket.service');
 
 class DeleteTicketController {
   handleDeleteTicket = async (req, res, next) => { // eslint-disable-line
     try {
-      const {
-        ticketId,
-      } = req.params;
+      const { ticketId } = req.params;
 
-      const user = await TicketModel.findById(ticketId);
+      const ticket = await TicketService.getTicket(ticketId);
+      if (!ticket) throw createError(404, 'Ticket does not exist');
 
-      if (!user) {
-        res.status(401);
-        throw createError.BadRequest('Unauthorized');
-      }
-
-      // First delete ticket from tickets db
-      await TicketModel.deleteOne({
-        _id: ObjectId(ticketId),
-      });
-
-      // Then delete ticket from user tickets arr in db
-      await UserModel.findOneAndUpdate({
-        _id: ObjectId(user.user),
-      }, {
-        $pull: {
-          tickets: ObjectId(ticketId),
-        },
-      });
+      // Delete ticket from tickets db and delete ticket from user tickets arr in db
+      await TicketService.deleteTicket(ticketId, ticket.user);
 
       return res.status(200).json({
         message: 'Ticket is successfully deleted.',

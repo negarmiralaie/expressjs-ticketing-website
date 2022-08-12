@@ -35,5 +35,6 @@ connectDB();
 app.use(async (req, res, next) => {
   next(createError.NotFound('This route does not exist'));
 });
+console.log('PORT', PORT);
 
 module.exports = app.listen(PORT);

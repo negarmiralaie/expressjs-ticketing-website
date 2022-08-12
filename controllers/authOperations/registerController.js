@@ -1,6 +1,8 @@
 const createError = require('http-errors');
 const UserModel = require('../../models/User');
+const UserService = require('../../services/user.service');
 const sendOTP = require('../../helpers/sendOTP');
+const getIdentifierMethod = require('../../helpers/getIdentifierMethod');
 const {
   signAccessToken,
   signRefreshToken,
@@ -9,23 +11,14 @@ const {
 class RegisterController {
   async handleRegister(req, res, next) { // eslint-disable-line
     const {
-      name,
-      familyName,
-      identifier,
-      password,
+      name, familyName, identifier, password,
     } = req.body;
 
-    const method = identifier.indexOf('@') > -1 ? 'email' : 'phoneNumber';
+    const method = getIdentifierMethod(identifier);
 
     // check for duplicate usernames in the db
-    const duplicateUser = await UserModel.findOne({
-      identifier,
-    }).exec();
-
-    if (duplicateUser) {
-      res.status(409);
-      throw createError.Conflict();
-    }
+    const duplicateUser = await UserService.getUserByIdentifier(identifier);
+    if (duplicateUser) return createError(409, 'User already exists');
 
     // If everything was okay and user wasnt already in the db
     try {
@@ -33,6 +26,7 @@ class RegisterController {
       console.log('verificationId', verificationId);
 
       // Now create and store the user in the db
+      const role = 'user';
       const user = await UserModel.create({
         name,
         familyName,
@@ -40,6 +34,7 @@ class RegisterController {
         identifier,
         password,
         verificationId,
+        role,
       });
 
       const userId = user._id.toString(); // eslint-disable-line no-underscore-dangle
@@ -50,12 +45,12 @@ class RegisterController {
         return res
           .status(201)
           .send({
-            message: 'OTP sent successfully',
             data: {
               verificationId,
               accessToken,
               refreshToken,
             },
+            message: 'OTP sent successfully',
           });
       }
     } catch (error) {

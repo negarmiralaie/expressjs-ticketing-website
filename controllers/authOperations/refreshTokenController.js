@@ -9,10 +9,8 @@ class RefreshTokenController {
   handleRefreshToken = async (req, res, next) => { // eslint-disable-line
     try {
       const refreshToken = req.body;
-      if (!refreshToken.refreshToken) {
-        res.status(400);
-        throw createError.BadRequest();
-      }
+      if (!refreshToken.refreshToken) throw createError(400);
+
       const userId = await verifyRefreshToken(refreshToken.refreshToken);
       // If user's refreshToken was valid we should create a new accesToken and a new refreshToken
       const accessToken = await signAccessToken(userId);
