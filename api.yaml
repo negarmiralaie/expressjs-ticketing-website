@@ -452,9 +452,9 @@ paths:
         404:
           description: Ticket does not exist.
 
-# 
+# POST TICKET ANSWER 
   /api/v1/admin/post-ticket-answer/ticketId:
-    get:
+    post:
       summary: For posting answer to a user ticket.
       description: 
       parameters:
