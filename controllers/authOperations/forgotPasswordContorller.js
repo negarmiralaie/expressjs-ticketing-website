@@ -13,6 +13,11 @@ class ForgotPasswordController {
       const { id, password } = foundUser;
       const token = await sendResetPasswordLink(identifier, id, password);
 
+      res.cookie('forgot-password-token', token, {
+        maxAge: 24 * 60 * 60 * 1000,
+        httpOnly: true,
+      });
+
       return res.status(200).json({
         data: { token, id },
         message: 'Password reset link has been sent',

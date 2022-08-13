@@ -6,9 +6,9 @@ const UserService = require('../../services/user.service');
 class ResetPasswordController {
   handleResetPassword = async (req, res, next) => { // eslint-disable-line class-methods-use-this
     const { password, confirmPassword } = req.body;
-    const { token } = req.query;
+    const { cookies } = req;
+    const token = cookies['forgot-password-token'];
     const userId = JWT.decode(token).id;
-    console.log('userId', userId);
 
     try {
       const user = await UserService.getUserById(userId);

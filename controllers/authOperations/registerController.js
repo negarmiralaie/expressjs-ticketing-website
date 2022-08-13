@@ -18,11 +18,7 @@ class RegisterController {
 
     // check for duplicate usernames in the db
     const duplicateUser = await UserService.getUserByIdentifier(identifier);
-    console.log('duplicateUser', duplicateUser !== null);
-    if (duplicateUser !== null) {
-      console.log('the end');
-      return createError(409, 'User already exists');
-    }
+    if (duplicateUser !== null) return createError(409, 'User already exists');
     // If everything was okay and user wasnt already in the db
     try {
       const verificationId = await sendOTP(method, identifier);
