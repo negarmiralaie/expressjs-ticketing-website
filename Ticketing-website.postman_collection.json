@@ -144,7 +144,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"identifier\" : \"09127298258\",\n    \"password\" : \"33333333222\"\n}",
+							"raw": "{\n    \"identifier\" : \"v@gmail.com\",\n    \"password\" : \"2345678909\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -237,7 +237,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"identifier\" : \"09127298258\"\n}",
+							"raw": "{\n    \"identifier\" : \"v@gmail.com\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -268,7 +268,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"password\": \"2345678909\",\n    \"confirmPassword\": \"2345678909\"\n}",
+							"raw": "{\n    \"password\": \"77777777\",\n    \"confirmPassword\": \"77777777\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -276,12 +276,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/api/v1/auth/reset-password",
+							"raw": "http://localhost:9000/api/v1/auth/reset-password",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "5000",
+							"port": "9000",
 							"path": [
 								"api",
 								"v1",
