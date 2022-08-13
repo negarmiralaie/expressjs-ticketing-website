@@ -1,5 +1,5 @@
 const createError = require('http-errors');
-const UserService = require('../../services/user.service');
+const UserModel = require('../../models/User');
 const OtpService = require('../../services/otp.service');
 const {
   signAccessToken,
@@ -9,7 +9,7 @@ const {
 class LoginHandler {
   handleLogin = async (req, res, next) => { // eslint-disable-line class-methods-use-this
     const { identifier, password } = req.body;
-    const foundUser = await UserService.getUserByIdentifier(identifier);
+    const foundUser = await UserModel.findOne({ identifier });
 
     try {
       if (foundUser === null) throw createError(404, 'This user does not exist.');

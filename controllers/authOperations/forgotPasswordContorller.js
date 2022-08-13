@@ -1,5 +1,5 @@
 const createError = require('http-errors');
-const UserService = require('../../services/user.service');
+const UserModel = require('../../models/User');
 const sendResetPasswordLink = require('../../helpers/sendResetPasswordLink');
 
 class ForgotPasswordController {
@@ -7,7 +7,7 @@ class ForgotPasswordController {
     const { identifier } = req.body;
 
     try {
-      const foundUser = await UserService.getUserByIdentifier(identifier);
+      const foundUser = await UserModel.findOne({ identifier });
       if (!foundUser) throw createError(400);
 
       const { id, password } = foundUser;
@@ -15,7 +15,7 @@ class ForgotPasswordController {
 
       return res.status(200).json({
         data: { token, id },
-        message: 'Password reset link has been sent to your phone number.',
+        message: 'Password reset link has been sent',
       });
     } catch (error) {
       return next(error);

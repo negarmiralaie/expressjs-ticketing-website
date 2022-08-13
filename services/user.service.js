@@ -14,7 +14,8 @@ class UserService {
 
   getUserByIdentifier = async (identifier) => { // eslint-disable-line class-methods-use-this
     try {
-      return await UserModel.findOne({ identifier });
+      const a = await UserModel.findOne({ identifier });
+      return a;
     } catch (error) {
       throw createError.InternalServerError(error);
     }
@@ -33,7 +34,7 @@ class UserService {
       const foundUser = await this.getUserById(userId);
       if (foundUser.tickets.length === 0) return [];
       // Use toString for converting "new ObjectId to plain id"
-      const foundUserTicketIds = await foundUser[0].tickets
+      const foundUserTicketIds = await foundUser.tickets
         .map((ticketObjectId) => ticketObjectId.toString());
       const userTicketsArr = [];
 
@@ -57,9 +58,9 @@ class UserService {
       const filteredTicketsArr = [];
 
       for (let i = 0; i < ticketsArr.length; i++) {
-        if (ticketsArr[i][0]) {
-          if (ticketsArr[i][0].status === desiredTicketStatus) {
-            filteredTicketsArr.push(ticketsArr[i][0]);
+        if (ticketsArr[i]) {
+          if (ticketsArr[i].status === desiredTicketStatus) {
+            filteredTicketsArr.push(ticketsArr[i]);
           }
         }
       }

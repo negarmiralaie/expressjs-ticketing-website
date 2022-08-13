@@ -1,13 +1,16 @@
 const createError = require('http-errors');
+const JWT = require('jsonwebtoken');
 const hashPassword = require('../../helpers/hashPassword');
 const UserService = require('../../services/user.service');
 
 class ResetPasswordController {
   handleResetPassword = async (req, res, next) => { // eslint-disable-line class-methods-use-this
     const { password, confirmPassword } = req.body;
+    const { token } = req.query;
+    const userId = JWT.decode(token).id;
+    console.log('userId', userId);
 
     try {
-      const { userId } = req;
       const user = await UserService.getUserById(userId);
       if (!user) throw createError.BadRequest(404, 'User not found');
 

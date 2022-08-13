@@ -2,7 +2,7 @@ const createError = require('http-errors');
 const { createJwtToken } = require('./jwtHelper');
 const sendEmailOrSms = require('./sendEmailOrSms');
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 9000;
 
 const sendResetPasswordLink = async (identifier, id, password) => {
   try {
@@ -13,7 +13,7 @@ const sendResetPasswordLink = async (identifier, id, password) => {
     const method = identifier.includes('@') ? 'email' : 'phone';
 
     // Remember this link is valid once, otherwise it will give us "invalid signature password"!!
-    const link = `https://localhost:${PORT}/reset-password/${id}/${token}`;
+    const link = `https://localhost:${PORT}/api/v1/reset-password/${token}`;
     console.log('link', link);
 
     await sendEmailOrSms(method, identifier, `Check out this link to reset your password: ${link}`);

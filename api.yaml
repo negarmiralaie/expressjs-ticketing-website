@@ -451,3 +451,27 @@ paths:
           description: Unauthorized. User is not logged in.
         404:
           description: Ticket does not exist.
+
+# 
+  /api/v1/admin/post-ticket-answer/ticketId:
+    get:
+      summary: For posting answer to a user ticket.
+      description: 
+      parameters:
+      - in: query
+        name: status
+        type: string
+        required: true
+      responses:
+        200: 
+          description: Success. Answer is posted.
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Answer is successfully attached'."
+        401: 
+          description: Unauthorized. You don`t have permission to perform this action.
+        404:
+          description: Ticket does not exist.

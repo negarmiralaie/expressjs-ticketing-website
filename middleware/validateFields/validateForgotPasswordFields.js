@@ -9,13 +9,14 @@ exports.validateForgotPasswordFields = [
       .trim()
       .isLength(11)
       .bail()
-      .isMobilePhone(),
+      .isMobilePhone()
+      .withMessage('Identifier is invalid'),
     check('identifier')
       .trim()
       .notEmpty()
       .bail()
       .escape()
       .isEmail()
-      .withMessage('Email is invalid'),
+      .withMessage('Identifier is invalid'),
   ]),
 ];
