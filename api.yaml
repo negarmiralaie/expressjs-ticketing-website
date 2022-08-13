@@ -453,15 +453,10 @@ paths:
           description: Ticket does not exist.
 
 # POST TICKET ANSWER 
-  /api/v1/admin/post-ticket-answer/ticketId:
+  /api/v1/admin/post-ticket-answer:
     post:
       summary: For posting answer to a user ticket.
       description: 
-      parameters:
-      - in: query
-        name: status
-        type: string
-        required: true
       responses:
         200: 
           description: Success. Answer is posted.
