@@ -8,6 +8,7 @@ const connectDB = require('./config/db');
 const routes = require('./routes/index');
 // ! //////////////////// END OF IMPORTS //////////////////////
 
+
 const app = express();
 const swaggerJSDocs = YAML.load('./api.yaml');
 require('./config/init_redis');
